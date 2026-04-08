@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getAddressesByUserId, createAddress, updateAddress, deleteAddress } from '../services/supabase';
+import { getAddressesByUserId, createAddress, updateAddress, deleteAddress } from '../services/index';
 import { useAuth } from '../context/AuthContext';
 
 /**

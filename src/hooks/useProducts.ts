@@ -1,6 +1,6 @@
 // src/hooks/useProducts.ts
 import { useQuery } from '@tanstack/react-query';
-import { getProducts } from '../services/supabase';
+import { getProducts } from '../services/index';
 import { ProductFilters, ProductPage } from '../types/product';
 
 export const useProducts = (filters: ProductFilters = {}) => {

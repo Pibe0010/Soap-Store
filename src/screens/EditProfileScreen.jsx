@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system/legacy';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
-import { supabase } from '../services/supabase';
+import { supabase } from '../services/index';
 import { t } from '../constants/translations';
 import { theme } from '../styles/theme';
 import {

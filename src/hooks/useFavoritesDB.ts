@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getFavoritesByUserId, addFavorite, removeFavorite } from '../services/supabase';
+import { getFavoritesByUserId, addFavorite, removeFavorite } from '../services/index';
 import { useAuth } from '../context/AuthContext';
 
 /**

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { supabase } from '../services/supabase';
+import { supabase } from '../services/index';
 import { theme } from '../styles/theme';
 import FormInput from '../components/FormInput';
 import { useFormValidation } from '../hooks/useFormValidation';

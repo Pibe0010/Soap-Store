@@ -5,7 +5,7 @@ import {
   createOrder, 
   updateOrder,
   getOrderItemsByOrderId
-} from '../services/supabase';
+} from '../services/index';
 import { useAuth } from '../context/AuthContext';
 
 /**

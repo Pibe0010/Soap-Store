@@ -1,6 +1,6 @@
 // src/hooks/useProduct.ts
 import { useQuery } from '@tanstack/react-query';
-import { getProductById } from '../services/supabase';
+import { getProductById } from '../services/index';
 
 export const useProduct = (id: string) => {
   return useQuery({

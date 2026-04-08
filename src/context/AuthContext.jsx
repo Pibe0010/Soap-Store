@@ -9,7 +9,7 @@ import {
   updateUserPassword, 
   getSession,
   getUser
-} from '../services/supabase';
+} from '../services/index';
 
 const initialState = {
   user: null,
@@ -60,7 +60,6 @@ export const AuthProvider = ({ children }) => {
           dispatch({ type: AuthActions.SET_USER, payload: session.user });
         }
       } catch (error) {
-        console.error('Auth initialization error:', error);
         // Clear session on error
         await signOut();
       } finally {

@@ -3,7 +3,7 @@ import { ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { theme } from '../styles/theme';
-import { supabase } from '../services/supabase';
+import { supabase } from '../services/index';
 import * as S from '../styles/EmailVerificationScreenStyles';
 
 export default function EmailVerificationScreen({ navigation, route }) {
