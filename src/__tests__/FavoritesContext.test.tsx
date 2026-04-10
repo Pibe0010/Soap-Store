@@ -1,9 +1,9 @@
 import React from 'react';
 import { renderHook, act, waitFor } from '@testing-library/react-native';
-import { FavoritesProvider, useFavorites } from '../FavoritesContext';
+import { FavoritesProvider, useFavorites } from '../context/FavoritesContext';
 
 // Mock the dependencies
-jest.mock('../AuthContext', () => ({
+jest.mock('../context/AuthContext', () => ({
   useAuth: () => ({
     user: { id: 'test-user-id' },
     isLoggedIn: true,
