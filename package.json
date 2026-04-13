@@ -12,7 +12,9 @@
   },
   "jest": {
     "preset": "jest-expo",
-    "setupFilesAfterEnv": ["./jest.setup.cjs"]
+    "setupFilesAfterEnv": [
+      "./jest.setup.cjs"
+    ]
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
@@ -51,6 +53,7 @@
     "globals": "^17.4.0",
     "jest": "^30.3.0",
     "jest-expo": "^55.0.11",
-    "ts-jest": "^29.4.6"
+    "ts-jest": "^29.4.6",
+    "typescript-eslint": "^8.58.1"
   }
 }
