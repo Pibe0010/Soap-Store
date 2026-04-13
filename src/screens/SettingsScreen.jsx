@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { t } from '../constants/translations';
+import { useTranslation } from 'react-i18next';
+import { useLanguage } from '../context/LanguageContext';
 import { theme } from '../styles/theme';
 import {
   Container,
@@ -21,12 +22,6 @@ import {
   LanguageArrow,
 } from '../styles/SettingsScreenStyles';
 
-const LANGUAGES = [
-  { code: 'es', label: 'Español', flag: '🇦🇷' },
-  { code: 'en', label: 'English', flag: '🇺🇸' },
-  { code: 'pt', label: 'Português', flag: '🇧🇷' },
-];
-
 /**
  * App settings screen with language, notifications, and preferences.
  *
@@ -34,42 +29,46 @@ const LANGUAGES = [
  */
 export default function SettingsScreen() {
   const navigation = useNavigation();
-  const [language, setLanguage] = useState('es');
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
+  const { t } = useTranslation();
+  const { language, changeLanguage } = useLanguage();
+  const [notificationsEnabled, setNotificationsEnabled] = React.useState(true);
+  const [darkMode, setDarkMode] = React.useState(false);
+
+  const languages = [
+    { code: 'es', label: t('languages.es') },
+    { code: 'en', label: t('languages.en') },
+  ];
 
   const handleLanguagePress = () => {
-    const currentLang = LANGUAGES.find(l => l.code === language);
-    const options = LANGUAGES.map(l => l.label).join(', ');
+    const options = languages.map(l => l.label).join(', ');
     Alert.alert(
-      t.ajustes.menu.language,
-      `${t.ajustes.menu.selectLanguage}\n\n${options}`,
-      LANGUAGES.map((lang) => ({
-        text: `${lang.flag} ${lang.label}`,
+      t('ajustes.menu.language'),
+      `${t('ajustes.menu.selectLanguage')}`,
+      languages.map((lang) => ({
+        text: lang.label,
         onPress: () => {
-          setLanguage(lang.code);
-          // TODO: Implement actual language switching
+          changeLanguage(lang.code);
         },
       }))
     );
   };
 
-  const currentLang = LANGUAGES.find(l => l.code === language);
+  const currentLang = languages.find(l => l.code === language);
 
   return (
     <Container>
       <Header>
-        <HeaderTitle>{t.ajustes.title}</HeaderTitle>
+        <HeaderTitle>{t('ajustes.title')}</HeaderTitle>
       </Header>
 
-      <SectionTitle>{t.ajustes.sections.general}</SectionTitle>
+      <SectionTitle>{t('ajustes.sections.general')}</SectionTitle>
       <Section>
         <LanguageButton onPress={handleLanguagePress}>
           <MenuItemIcon bgColor={theme.colors.accent + '20'}>
             <Ionicons name="language-outline" size={22} color={theme.colors.accent} />
           </MenuItemIcon>
-          <MenuItemText>{t.ajustes.menu.language}</MenuItemText>
-          <LanguageText>{currentLang?.flag} {currentLang?.label}</LanguageText>
+          <MenuItemText>{t('ajustes.menu.language')}</MenuItemText>
+          <LanguageText>{currentLang?.label}</LanguageText>
           <LanguageArrow>
             <Ionicons name="chevron-forward" size={20} color={theme.colors.textSecondary} />
           </LanguageArrow>
@@ -79,20 +78,20 @@ export default function SettingsScreen() {
           <MenuItemIcon bgColor={theme.colors.textSecondary + '20'}>
             <Ionicons name="moon-outline" size={22} color={theme.colors.textSecondary} />
           </MenuItemIcon>
-          <MenuItemText>{t.ajustes.menu.darkMode}</MenuItemText>
+          <MenuItemText>{t('ajustes.menu.darkMode')}</MenuItemText>
           <ToggleContainer>
             <ToggleSwitch active={darkMode} onPress={() => setDarkMode(!darkMode)} />
           </ToggleContainer>
         </MenuItem>
       </Section>
 
-      <SectionTitle>{t.ajustes.sections.notifications}</SectionTitle>
+      <SectionTitle>{t('ajustes.sections.notifications')}</SectionTitle>
       <Section>
         <MenuItem onPress={() => setNotificationsEnabled(!notificationsEnabled)}>
           <MenuItemIcon bgColor={theme.colors.warning + '20'}>
             <Ionicons name="notifications-outline" size={22} color={theme.colors.warning} />
           </MenuItemIcon>
-          <MenuItemText>{t.ajustes.menu.pushNotifications}</MenuItemText>
+          <MenuItemText>{t('ajustes.menu.pushNotifications')}</MenuItemText>
           <ToggleContainer>
             <ToggleSwitch active={notificationsEnabled} onPress={() => setNotificationsEnabled(!notificationsEnabled)} />
           </ToggleContainer>
@@ -102,28 +101,28 @@ export default function SettingsScreen() {
           <MenuItemIcon bgColor={theme.colors.info + '20'}>
             <Ionicons name="mail-outline" size={22} color={theme.colors.info} />
           </MenuItemIcon>
-          <MenuItemText>{t.ajustes.menu.emailNotifications}</MenuItemText>
+          <MenuItemText>{t('ajustes.menu.emailNotifications')}</MenuItemText>
           <ToggleContainer>
             <ToggleSwitch active={notificationsEnabled} onPress={() => setNotificationsEnabled(!notificationsEnabled)} />
           </ToggleContainer>
         </MenuItem>
       </Section>
 
-      <SectionTitle>{t.ajustes.sections.about}</SectionTitle>
+      <SectionTitle>{t('ajustes.sections.about')}</SectionTitle>
       <Section>
         <MenuItem>
           <MenuItemIcon bgColor={theme.colors.success + '20'}>
             <Ionicons name="information-circle-outline" size={22} color={theme.colors.success} />
           </MenuItemIcon>
-          <MenuItemText>{t.ajustes.menu.version}</MenuItemText>
-          <LanguageText>1.0.0</LanguageText>
+          <MenuItemText>{t('ajustes.menu.version')}</MenuItemText>
+          <LanguageText>{t('app.version')}</LanguageText>
         </MenuItem>
 
         <MenuItem onPress={() => navigation.navigate('Help')}>
           <MenuItemIcon bgColor={theme.colors.primary + '20'}>
             <Ionicons name="help-circle-outline" size={22} color={theme.colors.primary} />
           </MenuItemIcon>
-          <MenuItemText>{t.ajustes.menu.help}</MenuItemText>
+          <MenuItemText>{t('ajustes.menu.help')}</MenuItemText>
           <MenuItemArrow>
             <Ionicons name="chevron-forward" size={20} color={theme.colors.textSecondary} />
           </MenuItemArrow>
@@ -133,7 +132,7 @@ export default function SettingsScreen() {
           <MenuItemIcon bgColor={theme.colors.error + '20'}>
             <Ionicons name="shield-checkmark-outline" size={22} color={theme.colors.error} />
           </MenuItemIcon>
-          <MenuItemText>{t.ajustes.menu.privacy}</MenuItemText>
+          <MenuItemText>{t('ajustes.menu.privacy')}</MenuItemText>
           <MenuItemArrow>
             <Ionicons name="chevron-forward" size={20} color={theme.colors.textSecondary} />
           </MenuItemArrow>

@@ -1,0 +1,201 @@
+{
+  "app": {
+    "version": "1.0.0"
+  },
+  "languages": {
+    "es": "Spanish",
+    "en": "English"
+  },
+  "tabs": {
+    "inicio": "Home",
+    "ofertas": "Offers",
+    "carrito": "Cart",
+    "perfil": "Profile",
+    "ajustes": "Settings"
+  },
+  "menu": {
+    "welcome": "Menu",
+    "account": "My account",
+    "contacanos": "Contact us",
+    "misPedidos": "My orders",
+    "ayuda": "Help",
+    "iniciarSesion": "Log in",
+    "registrarse": "Sign up",
+    "cerrarSesion": "Log out",
+    "favoritos": "Favorites"
+  },
+  "cart": {
+    "title": "My cart",
+    "empty": "Your cart is empty",
+    "emptySubtitle": "Add a product to continue",
+    "clear": "Clear",
+    "total": "Total",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "removeConfirm": "Are you sure?",
+    "clearConfirm": "Clear cart?",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+  "contact": {
+    "title": "Contact us",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send",
+    "findUs": "Find us",
+    "followUs": "Follow us",
+    "nameRequired": "Name is required",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Enter a valid email",
+    "messageRequired": "Message is required",
+    "confirmation": "Your message was prepared in your email client.",
+    "error": "Could not open email client",
+    "errorLink": "Could not open link"
+  },
+  "products": {
+    "title": "Products",
+    "error": "Error loading products",
+    "retry": "Tap to retry",
+    "empty": "No products available",
+    "allCategories": "Categories",
+    "selectCategory": "Select category",
+    "close": "Close",
+    "detailTitle": "Product details",
+    "errorProduct": "Error loading product",
+    "notFound": "Product not found",
+    "goBack": "Back to products",
+    "backToProducts": "Back to products"
+  },
+  "addToCart": "Add to cart",
+  "ofertas": {
+    "empty": "No offers available at the moment"
+  },
+  "perfil": {
+    "loginPrompt": "Log in to see your profile",
+    "title": "My profile",
+    "stats": {
+      "orders": "Orders",
+      "favorites": "Favorites"
+    },
+    "sections": {
+      "account": "Account",
+      "preferences": "Preferences"
+    },
+    "menu": {
+      "editProfile": "Edit profile",
+      "changePassword": "Change password",
+      "addresses": "My addresses",
+      "notifications": "Notifications",
+      "language": "Language"
+    },
+    "editProfile": {
+      "title": "Edit profile",
+      "fullName": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "save": "Save changes",
+      "saving": "Saving...",
+      "success": "Profile updated successfully",
+      "error": "Error updating profile",
+      "emailHint": "Email cannot be changed"
+    },
+    "addresses": {
+      "title": "My addresses",
+      "empty": "You have no saved addresses",
+      "emptySubtitle": "Add an address to speed up your purchases",
+      "add": "Add address",
+      "edit": "Edit address",
+      "delete": "Delete address",
+      "deleteConfirm": "Delete this address?",
+      "label": "Name",
+      "labelPlaceholder": "E.g: Home, Work, Mom",
+      "streetAddress": "Address",
+      "streetAddressPlaceholder": "Street and number",
+      "apartmentUnit": "Apt / Floor / Tower",
+      "apartmentUnitPlaceholder": "Optional",
+      "city": "City",
+      "cityPlaceholder": "City",
+      "stateProvince": "State / Province",
+      "stateProvincePlaceholder": "State / Province",
+      "postalCode": "Postal code",
+      "postalCodePlaceholder": "E.g: 1425",
+      "country": "Country",
+      "countryPlaceholder": "Country",
+      "setDefault": "Set as default address",
+      "save": "Save address",
+      "update": "Update address",
+      "saving": "Saving...",
+      "success": "Address saved successfully",
+      "error": "Could not save address",
+      "required": "This field is required"
+    },
+    "logout": "Log out",
+    "logoutConfirm": "Are you sure you want to log out?",
+    "guest": "Guest user"
+  },
+  "ajustes": {
+    "title": "Settings",
+    "sections": {
+      "general": "General",
+      "notifications": "Notifications",
+      "about": "About"
+    },
+    "menu": {
+      "language": "Language",
+      "selectLanguage": "Select a language:",
+      "darkMode": "Dark mode",
+      "pushNotifications": "Push notifications",
+      "emailNotifications": "Email notifications",
+      "version": "App version",
+      "help": "Help and support",
+      "privacy": "Privacy policy"
+    }
+  },
+  "pedidos": {
+    "empty": "You have no orders yet",
+    "emptySubtitle": "Your orders will appear here when you make a purchase",
+    "title": "My orders",
+    "orderNumber": "Order",
+    "items": "products",
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "date": "Date",
+    "total": "Total",
+    "details": "View details",
+    "collapse": "Hide details"
+  },
+  "ayuda": {
+    "title": "Help and FAQ",
+    "body": "We are here to help you. If you have any questions or need assistance, feel free to contact us."
+  },
+  "favoritos": {
+    "title": "Favorites",
+    "empty": "You have no favorite products",
+    "emptySubtitle": "Add products by tapping the star icon",
+    "remove": "Remove"
+  },
+  "toast": {
+    "loginToSeeOrders": "Log in to see your orders",
+    "loginToSeeHelp": "Log in to access help",
+    "loginToAddCart": "Log in to add to cart",
+    "loginButton": "Log in",
+    "verificationRequired": "Verify your email to continue"
+  },
+  "auth": {
+    "loginTitle": "Log in",
+    "registerTitle": "Create account",
+    "forgotPasswordTitle": "Forgot your password?",
+    "resetPasswordTitle": "New password",
+    "changePasswordTitle": "Change password",
+    "emailVerificationTitle": "Verify your email"
+  },
+  "common": {
+    "error": "Error"
+  }
+}
