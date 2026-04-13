@@ -1,0 +1,202 @@
+{
+  "app": {
+    "version": "1.0.0"
+  },
+  "languages": {
+    "es": "Espanhol",
+    "en": "Inglês",
+    "pt": "Português"
+  },
+  "tabs": {
+    "inicio": "Início",
+    "ofertas": "Ofertas",
+    "carrito": "Carrinho",
+    "perfil": "Perfil",
+    "ajustes": "Ajustes"
+  },
+  "menu": {
+    "welcome": "Menu",
+    "account": "Minha conta",
+    "contacanos": "Fale conosco",
+    "misPedidos": "Meus pedidos",
+    "ayuda": "Ajuda",
+    "iniciarSesion": "Entrar",
+    "registrarse": "Cadastrar",
+    "cerrarSesion": "Sair",
+    "favoritos": "Favoritos"
+  },
+  "cart": {
+    "title": "Meu carrinho",
+    "empty": "Seu carrinho está vazio",
+    "emptySubtitle": "Adicione um produto para continuar",
+    "clear": "Limpar",
+    "total": "Total",
+    "checkout": "Finalizar compra",
+    "remove": "Remover",
+    "removeConfirm": "Tem certeza?",
+    "clearConfirm": "Limpar carrinho?",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
+  },
+  "contact": {
+    "title": "Fale conosco",
+    "name": "Nome",
+    "email": "E-mail",
+    "message": "Mensagem",
+    "send": "Enviar",
+    "findUs": "Nos encontre",
+    "followUs": "Siga-nos",
+    "nameRequired": "O nome é obrigatório",
+    "emailRequired": "O e-mail é obrigatório",
+    "emailInvalid": "Digite um e-mail válido",
+    "messageRequired": "A mensagem é obrigatória",
+    "confirmation": "Sua mensagem foi preparada no seu cliente de e-mail.",
+    "error": "Não foi possível abrir o cliente de e-mail",
+    "errorLink": "Não foi possível abrir o link"
+  },
+  "products": {
+    "title": "Produtos",
+    "error": "Erro ao carregar produtos",
+    "retry": "Toque para tentar novamente",
+    "empty": "Nenhum produto disponível",
+    "allCategories": "Categorias",
+    "selectCategory": "Selecionar categoria",
+    "close": "Fechar",
+    "detailTitle": "Detalhes do produto",
+    "errorProduct": "Erro ao carregar o produto",
+    "notFound": "Produto não encontrado",
+    "goBack": "Voltar aos produtos",
+    "backToProducts": "Voltar aos produtos"
+  },
+  "addToCart": "Adicionar ao carrinho",
+  "ofertas": {
+    "empty": "Nenhuma oferta disponível no momento"
+  },
+  "perfil": {
+    "loginPrompt": "Entre para ver seu perfil",
+    "title": "Meu perfil",
+    "stats": {
+      "orders": "Pedidos",
+      "favorites": "Favoritos"
+    },
+    "sections": {
+      "account": "Conta",
+      "preferences": "Preferências"
+    },
+    "menu": {
+      "editProfile": "Editar perfil",
+      "changePassword": "Alterar senha",
+      "addresses": "Meus endereços",
+      "notifications": "Notificações",
+      "language": "Idioma"
+    },
+    "editProfile": {
+      "title": "Editar perfil",
+      "fullName": "Nome completo",
+      "email": "E-mail",
+      "phone": "Telefone",
+      "save": "Salvar alterações",
+      "saving": "Salvando...",
+      "success": "Perfil atualizado com sucesso",
+      "error": "Erro ao atualizar o perfil",
+      "emailHint": "O e-mail não pode ser alterado"
+    },
+    "addresses": {
+      "title": "Meus endereços",
+      "empty": "Você não tem endereços salvos",
+      "emptySubtitle": "Adicione um endereço para acelerar suas compras",
+      "add": "Adicionar endereço",
+      "edit": "Editar endereço",
+      "delete": "Excluir endereço",
+      "deleteConfirm": "Excluir este endereço?",
+      "label": "Nome",
+      "labelPlaceholder": "Ex: Casa, Trabalho, Mãe",
+      "streetAddress": "Endereço",
+      "streetAddressPlaceholder": "Rua e número",
+      "apartmentUnit": "Apto / Andar / Torre",
+      "apartmentUnitPlaceholder": "Opcional",
+      "city": "Cidade",
+      "cityPlaceholder": "Cidade",
+      "stateProvince": "Estado",
+      "stateProvincePlaceholder": "Estado",
+      "postalCode": "CEP",
+      "postalCodePlaceholder": "Ex: 14250-000",
+      "country": "País",
+      "countryPlaceholder": "País",
+      "setDefault": "Definir como endereço principal",
+      "save": "Salvar endereço",
+      "update": "Atualizar endereço",
+      "saving": "Salvando...",
+      "success": "Endereço salvo com sucesso",
+      "error": "Não foi possível salvar o endereço",
+      "required": "Este campo é obrigatório"
+    },
+    "logout": "Sair",
+    "logoutConfirm": "Tem certeza que deseja sair?",
+    "guest": "Usuário convidado"
+  },
+  "ajustes": {
+    "title": "Ajustes",
+    "sections": {
+      "general": "Geral",
+      "notifications": "Notificações",
+      "about": "Sobre"
+    },
+    "menu": {
+      "language": "Idioma",
+      "selectLanguage": "Selecione um idioma:",
+      "darkMode": "Modo escuro",
+      "pushNotifications": "Notificações push",
+      "emailNotifications": "Notificações por e-mail",
+      "version": "Versão do app",
+      "help": "Ajuda e suporte",
+      "privacy": "Política de privacidade"
+    }
+  },
+  "pedidos": {
+    "empty": "Você ainda não tem pedidos",
+    "emptySubtitle": "Seus pedidos aparecerão aqui quando você fizer uma compra",
+    "title": "Meus pedidos",
+    "orderNumber": "Pedido",
+    "items": "produtos",
+    "status": {
+      "pending": "Pendente",
+      "processing": "Processando",
+      "shipped": "Enviado",
+      "delivered": "Entregue",
+      "cancelled": "Cancelado"
+    },
+    "date": "Data",
+    "total": "Total",
+    "details": "Ver detalhes",
+    "collapse": "Ocultar detalhes"
+  },
+  "ayuda": {
+    "title": "Ajuda e Perguntas Frequentes",
+    "body": "Estamos aqui para ajudar. Se você tiver alguma dúvida ou precisar de assistência, não hesite em nos contatar."
+  },
+  "favoritos": {
+    "title": "Favoritos",
+    "empty": "Você não tem produtos favoritos",
+    "emptySubtitle": "Adicione produtos tocando no ícone de estrela",
+    "remove": "Remover"
+  },
+  "toast": {
+    "loginToSeeOrders": "Entre para ver seus pedidos",
+    "loginToSeeHelp": "Entre para acessar ajuda",
+    "loginToAddCart": "Entre para adicionar ao carrinho",
+    "loginButton": "Entrar",
+    "verificationRequired": "Verifique seu e-mail para continuar"
+  },
+  "auth": {
+    "loginTitle": "Entrar",
+    "registerTitle": "Criar conta",
+    "forgotPasswordTitle": "Esqueceu sua senha?",
+    "resetPasswordTitle": "Nova senha",
+    "changePasswordTitle": "Alterar senha",
+    "emailVerificationTitle": "Verifique seu e-mail"
+  },
+  "common": {
+    "error": "Erro"
+  }
+}

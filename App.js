@@ -5,6 +5,8 @@ import { CartProvider } from './src/context/CartContext';
 import { AuthProvider } from './src/context/AuthContext';
 import { ToastProvider } from './src/context/ToastContext';
 import { FavoritesProvider } from './src/context/FavoritesContext';
+import { LanguageProvider } from './src/context/LanguageContext';
+import './src/i18n';
 import AppNavigator from './src/navigation/AppNavigator';
 import * as Linking from 'expo-linking';
 import { useRef } from 'react';
@@ -18,21 +20,23 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <FavoritesProvider>
-          <CartProvider>
-            <ToastProvider>
-              <NavigationContainer ref={navigationRef}>
-                <AppNavigator 
-                  initialUrl={url} 
-                  navigationRef={navigationRef} 
-                />
-              </NavigationContainer>
-              <StatusBar style="auto" />
-            </ToastProvider>
-          </CartProvider>
-        </FavoritesProvider>
-      </AuthProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <FavoritesProvider>
+            <CartProvider>
+              <ToastProvider>
+                <NavigationContainer ref={navigationRef}>
+                  <AppNavigator 
+                    initialUrl={url} 
+                    navigationRef={navigationRef} 
+                  />
+                </NavigationContainer>
+                <StatusBar style="auto" />
+              </ToastProvider>
+            </CartProvider>
+          </FavoritesProvider>
+        </AuthProvider>
+      </LanguageProvider>
     </QueryClientProvider>
   );
 }

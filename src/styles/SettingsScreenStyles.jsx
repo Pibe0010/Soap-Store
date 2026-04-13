@@ -46,6 +46,7 @@ export const MenuItem = styled.TouchableOpacity`
   padding: ${theme.spacing.md}px;
   border-bottom-width: 1px;
   border-bottom-color: ${theme.colors.textSecondary}10;
+  min-height: 56px;
 `;
 
 export const MenuItemIcon = styled.View`
@@ -72,15 +73,22 @@ export const LanguageButton = styled.TouchableOpacity`
   padding: ${theme.spacing.md}px;
   border-bottom-width: 1px;
   border-bottom-color: ${theme.colors.textSecondary}10;
+  min-height: 56px;
 `;
 
 export const LanguageText = styled.Text`
-  font-size: ${theme.typography.fontSizes.sm}px;
+  font-size: ${theme.typography.fontSizes.md}px;
   color: ${theme.colors.textSecondary};
+  text-align: right;
+  flex-shrink: 1;
+  min-width: 80px;
   margin-right: ${theme.spacing.sm}px;
 `;
 
-export const LanguageArrow = styled.View``;
+export const LanguageArrow = styled.View`
+  width: 20px;
+  align-items: center;
+`;
 
 export const ToggleContainer = styled.View`
   margin-left: ${theme.spacing.sm}px;
