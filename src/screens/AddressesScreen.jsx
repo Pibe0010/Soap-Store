@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useAddresses } from '../hooks/useAddresses';
 import { useTranslation } from 'react-i18next';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import {
   Container,
   Header,
@@ -33,6 +33,7 @@ import {
  */
 export default function AddressesScreen() {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const { addresses, loading, removeAddress, updateAddress, refresh } = useAddresses();
   const navigation = useNavigation();
 

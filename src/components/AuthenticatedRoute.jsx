@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { useAuth } from '../context/AuthContext';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import { Container } from '../components/AuthenticatedRouteStyles';
 import { NavigationContext } from '../../navigation/AppNavigator';
 
 export default function AuthenticatedRoute({ children }) {
   const { user, loading, initialized } = useAuth();
+  const { theme } = useTheme();
   const navigationRef = useContext(NavigationContext);
 
   if (!initialized || loading) {

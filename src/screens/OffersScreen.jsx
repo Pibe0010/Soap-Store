@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 
 /**
  * Placeholder screen for promotions and offers.
@@ -12,6 +12,8 @@ import { theme } from '../styles/theme';
  */
 export default function OfertasScreen() {
   const { t } = useTranslation();
+  const { theme } = useTheme();
+  
   return (
     <View style={{
       flex: 1,

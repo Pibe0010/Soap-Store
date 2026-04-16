@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useCart } from '../context/CartContext';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../context/ThemeContext';
 import {
   Container,
   Header,
@@ -26,7 +27,6 @@ import {
   CheckoutButton,
   CheckoutButtonText,
 } from '../styles/CartScreenStyles';
-import { theme } from '../styles/theme';
 
 /**
  * Screen component displaying the shopping cart with item management.
@@ -39,6 +39,7 @@ import { theme } from '../styles/theme';
  */
 export default function CartScreen() {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const { items, totalItems, totalPrice, updateQuantity, removeItem, clearCart } = useCart();
 
   const handleRemoveItem = (itemId) => {

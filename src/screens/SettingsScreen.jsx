@@ -4,7 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../context/LanguageContext';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
+import ToggleSwitch from '../components/ToggleSwitch';
 import {
   Container,
   Header,
@@ -16,7 +17,6 @@ import {
   MenuItemText,
   MenuItemArrow,
   ToggleContainer,
-  ToggleSwitch,
   LanguageButton,
   LanguageText,
   LanguageArrow,
@@ -31,8 +31,8 @@ export default function SettingsScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { language, changeLanguage } = useLanguage();
+  const { theme, isDarkMode, setDarkMode } = useTheme();
   const [notificationsEnabled, setNotificationsEnabled] = React.useState(true);
-  const [darkMode, setDarkMode] = React.useState(false);
 
   const languages = [
     { code: 'es', label: t('languages.es') },
@@ -55,6 +55,10 @@ export default function SettingsScreen() {
 
   const currentLang = languages.find(l => l.code === language);
 
+  const handleDarkModeToggle = () => {
+    setDarkMode(!isDarkMode);
+  };
+
   return (
     <Container>
       <Header>
@@ -74,13 +78,16 @@ export default function SettingsScreen() {
           </LanguageArrow>
         </LanguageButton>
 
-        <MenuItem onPress={() => setDarkMode(!darkMode)}>
+        <MenuItem onPress={handleDarkModeToggle}>
           <MenuItemIcon bgColor={theme.colors.textSecondary + '20'}>
             <Ionicons name="moon-outline" size={22} color={theme.colors.textSecondary} />
           </MenuItemIcon>
           <MenuItemText>{t('ajustes.menu.darkMode')}</MenuItemText>
           <ToggleContainer>
-            <ToggleSwitch active={darkMode} onPress={() => setDarkMode(!darkMode)} />
+            <ToggleSwitch 
+              active={isDarkMode} 
+              onPress={handleDarkModeToggle} 
+            />
           </ToggleContainer>
         </MenuItem>
       </Section>
@@ -93,17 +100,23 @@ export default function SettingsScreen() {
           </MenuItemIcon>
           <MenuItemText>{t('ajustes.menu.pushNotifications')}</MenuItemText>
           <ToggleContainer>
-            <ToggleSwitch active={notificationsEnabled} onPress={() => setNotificationsEnabled(!notificationsEnabled)} />
+            <ToggleSwitch 
+              active={notificationsEnabled} 
+              onPress={() => setNotificationsEnabled(!notificationsEnabled)} 
+            />
           </ToggleContainer>
         </MenuItem>
 
-        <MenuItem onPress={() => setDarkMode(!darkMode)}>
+        <MenuItem onPress={() => setNotificationsEnabled(!notificationsEnabled)}>
           <MenuItemIcon bgColor={theme.colors.info + '20'}>
             <Ionicons name="mail-outline" size={22} color={theme.colors.info} />
           </MenuItemIcon>
           <MenuItemText>{t('ajustes.menu.emailNotifications')}</MenuItemText>
           <ToggleContainer>
-            <ToggleSwitch active={notificationsEnabled} onPress={() => setNotificationsEnabled(!notificationsEnabled)} />
+            <ToggleSwitch 
+              active={notificationsEnabled} 
+              onPress={() => setNotificationsEnabled(!notificationsEnabled)} 
+            />
           </ToggleContainer>
         </MenuItem>
       </Section>

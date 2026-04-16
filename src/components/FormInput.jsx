@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TextInput } from 'react-native';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 
 export default function FormInput({ 
   placeholder, 
@@ -14,6 +14,8 @@ export default function FormInput({
   style,
   ...props 
 }) {
+  const { theme } = useTheme();
+  
   return (
     <View>
       <TextInput
@@ -31,6 +33,8 @@ export default function FormInput({
             borderRadius: 8,
             padding: 12,
             marginBottom: 12,
+            color: theme.colors.text,
+            backgroundColor: theme.colors.surface,
           },
           style,
         ]}

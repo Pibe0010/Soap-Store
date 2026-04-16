@@ -6,7 +6,7 @@ import { useFavorites } from '../context/FavoritesContext';
 import { useOrders } from '../hooks/useOrders';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import {
   Container,
   Header,
@@ -41,6 +41,7 @@ export default function PerfilScreen() {
   const { favorites } = useFavorites();
   const { orders } = useOrders();
   const navigation = useNavigation();
+  const { theme } = useTheme();
 
   const handleLogout = () => {
     Alert.alert(

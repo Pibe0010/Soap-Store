@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useAddresses } from '../hooks/useAddresses';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import {
   Container,
   Header,
@@ -28,6 +28,7 @@ import {
  */
 export default function EditAddressScreen() {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const navigation = useNavigation();
   const route = useRoute();
   const { addAddress, updateAddress, loading } = useAddresses();

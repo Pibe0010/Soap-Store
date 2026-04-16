@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { Animated, TouchableOpacity, View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useCart } from '../context/CartContext';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 
 /**
  * Cart icon button with item count badge and bounce animation on update.
@@ -17,6 +17,7 @@ import { theme } from '../styles/theme';
  */
 export default function CartIcon({ size = 24, testID, focused }) {
   const { totalItems } = useCart();
+  const { theme } = useTheme();
   const scale = useRef(new Animated.Value(1)).current;
   const prevTotal = useRef(totalItems);
 

@@ -4,13 +4,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import FormInput from '../components/FormInput';
 import { useFormValidation } from '../hooks/useFormValidation';
 import * as S from '../styles/ForgotPasswordScreenStyles';
 
 export default function ForgotPasswordScreen() {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const navigation = useNavigation();
   const { resetPassword, loading } = useAuth();
   const { isValidEmail, emailError } = useFormValidation();

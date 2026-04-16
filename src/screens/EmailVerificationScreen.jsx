@@ -3,12 +3,13 @@ import { ActivityIndicator, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import { supabase } from '../services/index';
 import * as S from '../styles/EmailVerificationScreenStyles';
 
 export default function EmailVerificationScreen({ navigation, route }) {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const { user, loading: authLoading } = useAuth();
   const [verificationLoading, setVerificationLoading] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(0);

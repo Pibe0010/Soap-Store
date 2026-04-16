@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import FormInput from '../components/FormInput';
 import SocialLoginButton from '../components/SocialLoginButton';
 import { useFormValidation } from '../hooks/useFormValidation';
@@ -15,6 +15,7 @@ export default function LoginScreen() {
   const navigation = useNavigation();
   const { login, loginWithGoogle, loading, user } = useAuth();
   const { isValidEmail, isValidPassword, emailError, passwordError } = useFormValidation();
+  const { theme } = useTheme();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

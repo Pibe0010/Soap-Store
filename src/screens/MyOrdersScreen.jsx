@@ -3,7 +3,7 @@ import { FlatList, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useOrders } from '../hooks/useOrders';
 import { useTranslation } from 'react-i18next';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import {
   Container,
   EmptyContainer,
@@ -36,6 +36,7 @@ import {
  */
 export default function MyOrdersScreen() {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const { orders, orderItems, getOrderById, loading } = useOrders();
   const [expandedOrderId, setExpandedOrderId] = useState(null);
 

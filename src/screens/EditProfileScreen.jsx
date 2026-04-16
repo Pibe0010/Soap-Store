@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../services/index';
 import { useTranslation } from 'react-i18next';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import {
   Container,
   Header,
@@ -32,6 +32,7 @@ import {
  */
 export default function EditProfileScreen() {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const { user } = useAuth();
   const [fullName, setFullName] = useState(user?.userMetadata?.name || '');
   const [phone, setPhone] = useState(user?.userMetadata?.phone || '');
