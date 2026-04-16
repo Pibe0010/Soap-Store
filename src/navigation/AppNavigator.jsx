@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons }  from '@expo/vector-icons';
 import { useAuth }  from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../context/ThemeContext';
 import NavigationContext from './NavigationContext';
 import ProductListScreen from '../screens/ProductListScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
@@ -21,7 +22,6 @@ import RegisterScreen from '../screens/RegisterScreen';
 import EmailVerificationScreen from '../screens/EmailVerificationScreen';
 import AuthMenuModal from '../components/AuthMenuModal';
 import CartIcon from '../components/CartIcon';
-import { theme } from '../styles/theme';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
@@ -38,6 +38,7 @@ const RootStack = createNativeStackNavigator();
 // MenuButton component - wraps the menu icon in a TouchableOpacity
 // Note: Uses useNavigation internally via React Navigation context when rendered in navigation context
 const MenuButton = ({ onPress }) => {
+  const { theme } = useTheme();
   return (
     <TouchableOpacity onPress={onPress} style={{ marginRight: 15 }}>
       <Ionicons name="menu" size={28} color={theme.colors.primary} />
@@ -47,6 +48,8 @@ const MenuButton = ({ onPress }) => {
 
 function HomeStack({ setModalVisible }) {
   const { t } = useTranslation();
+  const { theme } = useTheme();
+  
   return (
     <AppStack.Navigator>
       <AppStack.Screen
@@ -162,6 +165,7 @@ function HomeStack({ setModalVisible }) {
 function MainTabs({ setModalVisible }) {
   const { t } = useTranslation();
   const { isLoggedIn, user } = useAuth();
+  const { theme } = useTheme();
 
   return (
     <Tab.Navigator
@@ -170,8 +174,8 @@ function MainTabs({ setModalVisible }) {
         tabBarActiveTintColor: theme.colors.primary,
         tabBarInactiveTintColor: theme.colors.textSecondary,
         tabBarStyle: {
-          backgroundColor: theme.colors.surface,
-          borderTopColor: theme.colors.textSecondary + '20',
+          backgroundColor: theme.dark ? theme.colors.surface : theme.colors.background,
+          borderTopColor: theme.dark ? '#FFFFFF20' : '#FFFFFF20',
         },
         headerShown: false,
       }}
@@ -252,9 +256,10 @@ function MainTabs({ setModalVisible }) {
 }
 
 function LoadingScreen() {
+  const { theme } = useTheme();
   return (
     <LoadingContainer>
-      <Ionicons name="leaf" size={60} color={theme.colors.primary} />
+      <Ionicons name="leaf" size={60} color={theme.colors.background} />
       <ActivityIndicator size="large" color={theme.colors.primary} style={{ marginTop: 20 }} />
     </LoadingContainer>
   );

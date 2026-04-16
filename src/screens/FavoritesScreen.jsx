@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useFavorites } from '../context/FavoritesContext';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import ProductCard from '../components/ProductCard';
 import {
   Container,
@@ -15,6 +15,7 @@ import {
 
 export default function FavoritesScreen() {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const { favorites, removeFavorite } = useFavorites();
   const { width } = useWindowDimensions();
   const numColumns = width < 480 ? 1 : width < 768 ? 2 : 3;

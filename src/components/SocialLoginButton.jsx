@@ -1,9 +1,10 @@
 import React from 'react';
 import { Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 
 export default function SocialLoginButton({ provider, onPress, loading }) {
+  const { theme } = useTheme();
   let iconName, backgroundColor;
   if (provider === 'google') {
     iconName = 'google';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import { HelpContainer, HelpTitle, HelpText } from './HelpScreenStyles';
 
 /**
@@ -11,6 +11,8 @@ import { HelpContainer, HelpTitle, HelpText } from './HelpScreenStyles';
  */
 export default function HelpScreen() {
   const { t } = useTranslation();
+  const { theme } = useTheme();
+  
   return (
     <HelpContainer>
       <Ionicons name="help-circle-outline" size={80} color={theme.colors.disabled} />

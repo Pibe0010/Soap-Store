@@ -4,7 +4,6 @@ import { Container, ProductImage, Content, Title, Category, Price, ButtonContain
 import AddToCartButton from './AddToCartButton';
 import FavoriteButton from './FavoriteButton';
 import { useTranslation } from 'react-i18next';
-import { theme } from '../styles/theme';
 
 /**
  * Card component displaying a product with image, name, category, price,

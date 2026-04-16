@@ -6,8 +6,8 @@ import ProductCard from '../components/ProductCard';
 import CategoryFilter from '../components/CategoryFilter';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../context/ThemeContext';
 import { Container, ErrorText, RetryText, EmptyText } from '../styles/ProductListStyles';
-import { theme } from '../styles/theme';
 
 /**
  * Main screen displaying the product catalog with category filtering and responsive grid layout.
@@ -18,6 +18,7 @@ import { theme } from '../styles/theme';
  */
 export default function ProductListScreen() {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const { width } = useWindowDimensions();
   const numColumns = width < 480 ? 1 : width < 768 ? 2 : 3;

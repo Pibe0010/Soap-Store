@@ -9,7 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { useTranslation } from 'react-i18next';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import NavigationContext from '../navigation/NavigationContext';
 import {
   Overlay,
@@ -47,6 +47,7 @@ const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.5;
  */
 export default function AuthMenuModal({ visible, onClose, onLoginPress, onRegisterPress }) {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const translateX = useRef(new Animated.Value(SCREEN_WIDTH)).current;
   const overlayOpacity = useRef(new Animated.Value(0)).current;
   const swipeTranslateX = useRef(new Animated.Value(0)).current;

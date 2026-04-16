@@ -3,8 +3,8 @@ import { ActivityIndicator, View } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useProduct } from '../hooks/useProduct';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../context/ThemeContext';
 import { Container, Image, Content, Title, Category, Description, Price, ErrorText, RetryText, BackText, ButtonContainer, Label } from '../styles/ProductDetailStyles';
-import { theme } from '../styles/theme';
 import AddToCartButton from '../components/AddToCartButton';
 
 /**
@@ -16,6 +16,7 @@ import AddToCartButton from '../components/AddToCartButton';
  */
 export default function ProductDetailScreen() {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const route = useRoute();
   const navigation = useNavigation();
   const { productId } = route.params;

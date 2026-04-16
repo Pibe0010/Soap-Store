@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Alert, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import {
   Container,
   Section,
@@ -36,6 +36,7 @@ const CONTACT_ADDRESS = '123 Green Lane, Nature City, NC 10001';
  */
 export default function ContactScreen() {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
