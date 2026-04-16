@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Alert, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { useAddresses } from '../hooks/useAddresses';
 import { theme } from '../styles/theme';
 import {
@@ -26,6 +27,7 @@ import {
  * @returns {JSX.Element}
  */
 export default function EditAddressScreen() {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const route = useRoute();
   const { addAddress, updateAddress, loading } = useAddresses();
@@ -58,10 +60,10 @@ export default function EditAddressScreen() {
 
   const validate = () => {
     const errs = {};
-    if (!label.trim()) errs.label = 'El nombre es obligatorio (ej: Casa, Trabajo)';
-    if (!streetAddress.trim()) errs.streetAddress = 'La dirección es obligatoria';
-    if (!city.trim()) errs.city = 'La ciudad es obligatoria';
-    if (!country.trim()) errs.country = 'El país es obligatorio';
+    if (!label.trim()) errs.label = t('address.labelRequired');
+    if (!streetAddress.trim()) errs.streetAddress = t('address.streetRequired');
+    if (!city.trim()) errs.city = t('address.cityRequired');
+    if (!country.trim()) errs.country = t('address.countryRequired');
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -84,18 +86,18 @@ export default function EditAddressScreen() {
 
       if (editingAddress) {
         await updateAddress(editingAddress.id, addressData);
-        Alert.alert('✅', 'Dirección actualizada correctamente', [
-          { text: 'OK', onPress: () => navigation.goBack() },
+        Alert.alert('✅', t('address.updated'), [
+          { text: t('common.accept'), onPress: () => navigation.goBack() },
         ]);
       } else {
         await addAddress(addressData);
-        Alert.alert('✅', 'Dirección agregada correctamente', [
-          { text: 'OK', onPress: () => navigation.goBack() },
+        Alert.alert('✅', t('address.added'), [
+          { text: t('common.accept'), onPress: () => navigation.goBack() },
         ]);
       }
     } catch (err) {
       console.error('Error saving address:', err);
-      Alert.alert('Error', 'No se pudo guardar la dirección');
+      Alert.alert(t('common.error'), t('address.saveError'));
     } finally {
       setSaving(false);
     }
@@ -105,79 +107,79 @@ export default function EditAddressScreen() {
     <Container>
       <Header>
         <HeaderTitle>
-          {editingAddress ? 'Editar dirección' : 'Nueva dirección'}
+          {editingAddress ? t('address.editTitle') : t('address.newTitle')}
         </HeaderTitle>
       </Header>
 
       <FormContainer>
         <FormGroup>
-          <Label>Nombre *</Label>
+          <Label>{t('address.name')}</Label>
           <Input
             value={label}
             onChangeText={(text) => { setLabel(text); setErrors({ ...errors, label: null }); }}
-            placeholder="Ej: Casa, Trabajo, Mamá"
+            placeholder={t('address.namePlaceholder')}
             autoCapitalize="words"
           />
           {errors.label && <ErrorText>{errors.label}</ErrorText>}
         </FormGroup>
 
         <FormGroup>
-          <Label>Dirección *</Label>
+          <Label>{t('address.street')}</Label>
           <Input
             value={streetAddress}
             onChangeText={(text) => { setStreetAddress(text); setErrors({ ...errors, streetAddress: null }); }}
-            placeholder="Calle y número"
+            placeholder={t('address.streetPlaceholder')}
             autoCapitalize="words"
           />
           {errors.streetAddress && <ErrorText>{errors.streetAddress}</ErrorText>}
         </FormGroup>
 
         <FormGroup>
-          <Label>Depto / Piso / Torre</Label>
+          <Label>{t('address.apartment')}</Label>
           <Input
             value={apartmentUnit}
             onChangeText={setApartmentUnit}
-            placeholder="Opcional"
+            placeholder={t('address.optional')}
           />
         </FormGroup>
 
         <FormGroup>
-          <Label>Ciudad *</Label>
+          <Label>{t('address.city')}</Label>
           <Input
             value={city}
             onChangeText={(text) => { setCity(text); setErrors({ ...errors, city: null }); }}
-            placeholder="Ciudad"
+            placeholder={t('address.cityPlaceholder')}
             autoCapitalize="words"
           />
           {errors.city && <ErrorText>{errors.city}</ErrorText>}
         </FormGroup>
 
         <FormGroup>
-          <Label>Provincia</Label>
+          <Label>{t('address.state')}</Label>
           <Input
             value={stateProvince}
             onChangeText={setStateProvince}
-            placeholder="Provincia"
+            placeholder={t('address.statePlaceholder')}
             autoCapitalize="words"
           />
         </FormGroup>
 
         <FormGroup>
-          <Label>Código Postal</Label>
+          <Label>{t('address.postalCode')}</Label>
           <Input
             value={postalCode}
             onChangeText={setPostalCode}
-            placeholder="Ej: 1425"
+            placeholder={t('address.postalCodePlaceholder')}
             keyboardType="number-pad"
           />
         </FormGroup>
 
         <FormGroup>
-          <Label>País *</Label>
+          <Label>{t('address.country')}</Label>
           <Input
             value={country}
             onChangeText={(text) => { setCountry(text); setErrors({ ...errors, country: null }); }}
-            placeholder="País"
+            placeholder={t('address.countryPlaceholder')}
             autoCapitalize="words"
           />
           {errors.country && <ErrorText>{errors.country}</ErrorText>}
@@ -187,7 +189,7 @@ export default function EditAddressScreen() {
           <Checkbox checked={isDefault}>
             {isDefault && <Ionicons name="checkmark" size={14} color="#fff" />}
           </Checkbox>
-          <DefaultToggleText>Establecer como dirección principal</DefaultToggleText>
+          <DefaultToggleText>{t('address.setAsDefault')}</DefaultToggleText>
         </DefaultToggle>
 
         <SaveButton onPress={handleSave} disabled={saving}>
@@ -195,7 +197,7 @@ export default function EditAddressScreen() {
             <ActivityIndicator size="small" color={theme.colors.white} />
           ) : (
             <SaveButtonText>
-              {editingAddress ? 'Actualizar dirección' : 'Guardar dirección'}
+              {editingAddress ? t('address.update') : t('address.save')}
             </SaveButtonText>
           )}
         </SaveButton>

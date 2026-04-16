@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Alert, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { theme } from '../styles/theme';
-import { t } from '../constants/translations';
 import {
   Container,
   Section,
@@ -35,6 +35,7 @@ const CONTACT_ADDRESS = '123 Green Lane, Nature City, NC 10001';
  * @returns {JSX.Element}
  */
 export default function ContactScreen() {
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -47,13 +48,13 @@ export default function ContactScreen() {
    */
   const validate = () => {
     const newErrors = {};
-    if (!name.trim()) newErrors.name = t.contact.nameRequired;
+    if (!name.trim()) newErrors.name = t('contact.nameRequired');
     if (!email.trim()) {
-      newErrors.email = t.contact.emailRequired;
+      newErrors.email = t('contact.emailRequired');
     } else if (!EMAIL_REGEX.test(email.trim())) {
-      newErrors.email = t.contact.emailInvalid;
+      newErrors.email = t('contact.emailInvalid');
     }
-    if (!message.trim()) newErrors.message = t.contact.messageRequired;
+    if (!message.trim()) newErrors.message = t('contact.messageRequired');
     return newErrors;
   };
 
@@ -72,7 +73,7 @@ export default function ContactScreen() {
     const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
 
     Linking.openURL(mailtoUrl).catch(() => {
-      Alert.alert(t.common.error, t.contact.error);
+      Alert.alert(t('common.error'), t('contact.error'));
     });
 
     setSubmitted(true);
@@ -89,26 +90,26 @@ export default function ContactScreen() {
    */
   const openLink = (url) => {
     Linking.openURL(url).catch(() => {
-      Alert.alert(t.common.error, t.contact.errorLink);
+      Alert.alert(t('common.error'), t('contact.errorLink'));
     });
   };
 
   return (
     <Container>
       <Section>
-        <SectionTitle>{t.contact.title}</SectionTitle>
+        <SectionTitle>{t('contact.title')}</SectionTitle>
 
         <FormContainer>
-          <InputLabel>{t.contact.name}</InputLabel>
+          <InputLabel>{t('contact.name')}</InputLabel>
           <Input
-            placeholder={t.contact.name}
+            placeholder={t('contact.name')}
             value={name}
             onChangeText={setName}
             autoCapitalize="words"
           />
           {errors.name && <ErrorText>{errors.name}</ErrorText>}
 
-          <InputLabel>{t.contact.email}</InputLabel>
+          <InputLabel>{t('contact.email')}</InputLabel>
           <Input
             placeholder="tu@email.com"
             value={email}
@@ -118,9 +119,9 @@ export default function ContactScreen() {
           />
           {errors.email && <ErrorText>{errors.email}</ErrorText>}
 
-          <InputLabel>{t.contact.message}</InputLabel>
+          <InputLabel>{t('contact.message')}</InputLabel>
           <TextArea
-            placeholder={t.contact.message}
+            placeholder={t('contact.message')}
             value={message}
             onChangeText={setMessage}
             multiline
@@ -129,19 +130,19 @@ export default function ContactScreen() {
           {errors.message && <ErrorText>{errors.message}</ErrorText>}
 
           <SubmitButton onPress={handleSubmit}>
-            <SubmitButtonText>{t.contact.send}</SubmitButtonText>
+            <SubmitButtonText>{t('contact.send')}</SubmitButtonText>
           </SubmitButton>
 
           {submitted && (
             <ConfirmationText>
-              {t.contact.confirmation}
+              {t('contact.confirmation')}
             </ConfirmationText>
           )}
         </FormContainer>
       </Section>
 
       <Section>
-        <SectionTitle>{t.contact.findUs}</SectionTitle>
+        <SectionTitle>{t('contact.findUs')}</SectionTitle>
         <InfoCard>
           <InfoRow onPress={() => openLink(`tel:${CONTACT_PHONE}`)}>
             <Ionicons name="call" size={22} color={theme.colors.primary} />
@@ -161,7 +162,7 @@ export default function ContactScreen() {
       </Section>
 
       <Section>
-        <SectionTitle>{t.contact.followUs}</SectionTitle>
+        <SectionTitle>{t('contact.followUs')}</SectionTitle>
         <SocialContainer>
           <SocialButton
             onPress={() => openLink('https://instagram.com/soapstore')}
@@ -182,6 +183,6 @@ export default function ContactScreen() {
           </SocialButton>
         </SocialContainer>
       </Section>
-    </Container>
+</Container>
   );
 }

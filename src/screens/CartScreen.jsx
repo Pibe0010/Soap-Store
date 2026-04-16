@@ -3,7 +3,7 @@ import { FlatList, Alert, View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useCart } from '../context/CartContext';
-import { t } from '../constants/translations';
+import { useTranslation } from 'react-i18next';
 import {
   Container,
   Header,
@@ -38,32 +38,33 @@ import { theme } from '../styles/theme';
  * @returns {JSX.Element}
  */
 export default function CartScreen() {
+  const { t } = useTranslation();
   const { items, totalItems, totalPrice, updateQuantity, removeItem, clearCart } = useCart();
 
   const handleRemoveItem = (itemId) => {
     Alert.alert(
-      t.cart.remove,
-      t.cart.removeConfirm,
+      t('cart.remove'),
+      t('cart.removeConfirm'),
       [
-        { text: t.cart.cancel, style: 'cancel' },
-        { text: t.cart.remove, onPress: () => removeItem(itemId), style: 'destructive' },
+        { text: t('cart.cancel'), style: 'cancel' },
+        { text: t('cart.remove'), onPress: () => removeItem(itemId), style: 'destructive' },
       ]
     );
   };
 
   const handleClearCart = () => {
     Alert.alert(
-      t.cart.clear,
-      t.cart.clearConfirm,
+      t('cart.clear'),
+      t('cart.clearConfirm'),
       [
-        { text: t.cart.cancel, style: 'cancel' },
-        { text: t.cart.clear, onPress: clearCart, style: 'destructive' },
+        { text: t('cart.cancel'), style: 'cancel' },
+        { text: t('cart.clear'), onPress: clearCart, style: 'destructive' },
       ]
     );
   };
 
   const handleCheckout = () => {
-    Alert.alert(t.cart.checkout, t.cart.checkout);
+    Alert.alert(t('cart.checkout'), t('cart.checkout'));
   };
 
   if (items.length === 0) {
@@ -71,10 +72,10 @@ export default function CartScreen() {
       <SafeAreaView style={{ flex: 1 }} edges={['top']}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Ionicons name="cart-outline" size={80} color={theme.colors.disabled} />
-          <EmptyText>{t.cart.empty}</EmptyText>
-          <EmptyText>{t.cart.emptySubtitle}</EmptyText>
+          <EmptyText>{t('cart.empty')}</EmptyText>
+          <EmptyText>{t('cart.emptySubtitle')}</EmptyText>
           {/* Hidden title for accessibility and testing */}
-          <Text style={{ position: 'absolute', left: -9999 }}>{t.cart.title}</Text>
+          <Text style={{ position: 'absolute', left: -9999 }}>{t('cart.title')}</Text>
         </View>
       </SafeAreaView>
     );
@@ -106,10 +107,10 @@ export default function CartScreen() {
        <SafeAreaView style={{ flex: 1 }} edges={['top']}>
          <Container style={{ flex: 1 }}>
            <Header>
-             <Title>{t.cart.title}</Title>
+             <Title>{t('cart.title')}</Title>
              <ClearButton onPress={handleClearCart}>
                <Ionicons name="trash-outline" size={20} color={theme.colors.error} style={{ marginRight: 6 }} />
-               <ClearButtonText>{t.cart.clear}</ClearButtonText>
+               <ClearButtonText>{t('cart.clear')}</ClearButtonText>
              </ClearButton>
            </Header>
            <FlatList
@@ -120,10 +121,10 @@ export default function CartScreen() {
              style={{ flex: 1 }}
            />
            <Footer>
-             <TotalText>{t.cart.total}: {totalPrice.toFixed(2)}€</TotalText>
+             <TotalText>{t('cart.total')}: {totalPrice.toFixed(2)}€</TotalText>
              <CheckoutButton onPress={handleCheckout}>
                <Ionicons name="card-outline" size={20} color={theme.colors.white} style={{ marginRight: 8 }} />
-               <CheckoutButtonText>{t.cart.checkout}</CheckoutButtonText>
+               <CheckoutButtonText>{t('cart.checkout')}</CheckoutButtonText>
              </CheckoutButton>
            </Footer>
          </Container>

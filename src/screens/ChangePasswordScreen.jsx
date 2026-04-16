@@ -3,12 +3,14 @@ import { Alert, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { theme } from '../styles/theme';
 import FormInput from '../components/FormInput';
 import { useFormValidation } from '../hooks/useFormValidation';
 import * as S from '../styles/ChangePasswordScreenStyles';
 
 export default function ChangePasswordScreen() {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const { changePassword, loading } = useAuth();
   const { isValidPassword } = useFormValidation();
@@ -22,15 +24,15 @@ export default function ChangePasswordScreen() {
     const errors = {};
 
     if (!newPassword) {
-      errors.newPassword = 'La nueva contraseña es obligatoria';
+      errors.newPassword = t('auth.newPasswordRequired');
     } else if (!isValidPassword(newPassword)) {
-      errors.newPassword = 'La contraseña debe tener al menos 8 caracteres';
+      errors.newPassword = t('auth.passwordMinLength');
     }
 
     if (!confirmPassword) {
-      errors.confirmPassword = 'La confirmación es obligatoria';
+      errors.confirmPassword = t('auth.confirmPasswordRequired');
     } else if (newPassword !== confirmPassword) {
-      errors.confirmPassword = 'Las contraseñas no coinciden';
+      errors.confirmPassword = t('auth.passwordsNotMatch');
     }
 
     setValidationErrors(errors);
@@ -48,16 +50,16 @@ export default function ChangePasswordScreen() {
       await changePassword(newPassword);
       Alert.alert(
         '✅',
-        'Tu contraseña fue actualizada correctamente.',
+        t('auth.passwordChanged'),
         [
           {
-            text: 'Aceptar',
+            text: t('common.accept'),
             onPress: () => navigation.goBack(),
           },
         ]
       );
     } catch (error) {
-      setLocalError(error.message || 'No se pudo cambiar la contraseña');
+      setLocalError(error.message || t('auth.passwordChangeError'));
     }
   };
 
@@ -74,15 +76,15 @@ export default function ChangePasswordScreen() {
 
         <S.Header>
           <Ionicons name="lock-closed-outline" size={60} color={theme.colors.primary} />
-          <S.Title>Cambiar contraseña</S.Title>
+          <S.Title>{t('auth.changePassword')}</S.Title>
           <S.Subtitle>
-            Ingresá tu nueva contraseña. Por motivos de seguridad, debe ser diferente a la actual.
+            {t('auth.changePasswordSubtitle')}
           </S.Subtitle>
         </S.Header>
 
         <S.Form>
           <FormInput
-            placeholder="Nueva contraseña"
+            placeholder={t('auth.newPassword')}
             value={newPassword}
             onChangeText={(text) => { setNewPassword(text); setLocalError(null); }}
             secureTextEntry
@@ -90,7 +92,7 @@ export default function ChangePasswordScreen() {
           />
 
           <FormInput
-            placeholder="Confirmar nueva contraseña"
+            placeholder={t('auth.confirmNewPassword')}
             value={confirmPassword}
             onChangeText={(text) => { setConfirmPassword(text); setLocalError(null); }}
             secureTextEntry
@@ -101,7 +103,7 @@ export default function ChangePasswordScreen() {
             <S.HintIcon>
               <Ionicons name="information-circle-outline" size={16} color={theme.colors.textSecondary} />
             </S.HintIcon>
-            <S.HintText>Mínimo 8 caracteres, al menos una mayúscula y un número</S.HintText>
+            <S.HintText>{t('auth.passwordHint')}</S.HintText>
           </S.HintContainer>
 
           {localError && (
@@ -117,7 +119,7 @@ export default function ChangePasswordScreen() {
             {loading ? (
               <ActivityIndicator size="small" color={theme.colors.white} />
             ) : (
-              <S.ButtonText>Actualizar contraseña</S.ButtonText>
+              <S.ButtonText>{t('auth.updatePassword')}</S.ButtonText>
             )}
           </S.Button>
         </S.Form>

@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons }  from '@expo/vector-icons';
 import { useAuth }  from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 import NavigationContext from './NavigationContext';
 import ProductListScreen from '../screens/ProductListScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
@@ -20,7 +21,6 @@ import RegisterScreen from '../screens/RegisterScreen';
 import EmailVerificationScreen from '../screens/EmailVerificationScreen';
 import AuthMenuModal from '../components/AuthMenuModal';
 import CartIcon from '../components/CartIcon';
-import { t } from '../constants/translations';
 import { theme } from '../styles/theme';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen';
@@ -46,6 +46,7 @@ const MenuButton = ({ onPress }) => {
 };
 
 function HomeStack({ setModalVisible }) {
+  const { t } = useTranslation();
   return (
     <AppStack.Navigator>
       <AppStack.Screen
@@ -72,7 +73,7 @@ function HomeStack({ setModalVisible }) {
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Ionicons name="pricetag" size={20} color={theme.colors.primary} />
               <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.text }}>
-                {t.products.detailTitle}
+                {t('products.detailTitle')}
               </Text>
             </View>
           ),
@@ -87,7 +88,7 @@ function HomeStack({ setModalVisible }) {
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Ionicons name="cart" size={24} color={theme.colors.primary} />
               <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.text }}>
-                {t.cart.title}
+                {t('cart.title')}
               </Text>
             </View>
           ),
@@ -103,7 +104,7 @@ function HomeStack({ setModalVisible }) {
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Ionicons name="mail" size={24} color={theme.colors.primary} />
               <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.text }}>
-                {t.contact.title}
+                {t('contact.title')}
               </Text>
             </View>
           ),
@@ -118,7 +119,7 @@ function HomeStack({ setModalVisible }) {
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Ionicons name="receipt" size={24} color={theme.colors.primary} />
               <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.text }}>
-                {t.menu.misPedidos}
+                {t('menu.misPedidos')}
               </Text>
             </View>
           ),
@@ -133,7 +134,7 @@ function HomeStack({ setModalVisible }) {
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Ionicons name="help-circle" size={24} color={theme.colors.primary} />
               <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.text }}>
-                {t.ayuda.title}
+                {t('ayuda.title')}
               </Text>
             </View>
           ),
@@ -148,7 +149,7 @@ function HomeStack({ setModalVisible }) {
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Ionicons name="heart" size={24} color={theme.colors.primary} />
               <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.text }}>
-                {t.favoritos.title}
+                {t('favoritos.title')}
               </Text>
             </View>
           ),
@@ -159,6 +160,7 @@ function HomeStack({ setModalVisible }) {
 }
 
 function MainTabs({ setModalVisible }) {
+  const { t } = useTranslation();
   const { isLoggedIn, user } = useAuth();
 
   return (
@@ -184,7 +186,7 @@ function MainTabs({ setModalVisible }) {
               color={color}
             />
           ),
-          tabBarAccessibilityLabel: t.tabs.inicio,
+          tabBarAccessibilityLabel: t('tabs.inicio'),
         }}
       >
         {() => <HomeStack setModalVisible={setModalVisible} />}
@@ -201,7 +203,7 @@ function MainTabs({ setModalVisible }) {
               color={color}
             />
           ),
-          tabBarAccessibilityLabel: t.tabs.ofertas,
+          tabBarAccessibilityLabel: t('tabs.ofertas'),
         }}
       />
 
@@ -212,7 +214,7 @@ function MainTabs({ setModalVisible }) {
           tabBarIcon: ({ color, size, focused }) => (
             <CartIcon onPress={null} size={size} focused={focused} />
           ),
-          tabBarAccessibilityLabel: t.tabs.carrito,
+          tabBarAccessibilityLabel: t('tabs.carrito'),
         }}
       />
 
@@ -227,7 +229,7 @@ function MainTabs({ setModalVisible }) {
               color={color}
             />
           ),
-          tabBarAccessibilityLabel: t.tabs.perfil,
+          tabBarAccessibilityLabel: t('tabs.perfil'),
         }}
       />
 
@@ -242,7 +244,7 @@ function MainTabs({ setModalVisible }) {
               color={color}
             />
           ),
-          tabBarAccessibilityLabel: t.tabs.ajustes,
+          tabBarAccessibilityLabel: t('tabs.ajustes'),
         }}
       />
     </Tab.Navigator>

@@ -8,8 +8,8 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
+import { useTranslation } from 'react-i18next';
 import { theme } from '../styles/theme';
-import { t } from '../constants/translations';
 import NavigationContext from '../navigation/NavigationContext';
 import {
   Overlay,
@@ -46,6 +46,7 @@ const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.5;
  * @returns {JSX.Element|null}
  */
 export default function AuthMenuModal({ visible, onClose, onLoginPress, onRegisterPress }) {
+  const { t } = useTranslation();
   const translateX = useRef(new Animated.Value(SCREEN_WIDTH)).current;
   const overlayOpacity = useRef(new Animated.Value(0)).current;
   const swipeTranslateX = useRef(new Animated.Value(0)).current;
@@ -145,7 +146,7 @@ export default function AuthMenuModal({ visible, onClose, onLoginPress, onRegist
 
   const handleAuthGated = (screenName, toastMessage) => {
     if (!isLoggedIn) {
-      showToast(toastMessage, t.toast.loginButton, () => {
+      showToast(toastMessage, t('toast.loginButton'), () => {
         navigationRef?.current?.navigate('Login');
       });
       handleClose();
@@ -223,7 +224,7 @@ export default function AuthMenuModal({ visible, onClose, onLoginPress, onRegist
           </CloseButton>
 
           <MenuHeader>
-            <MenuTitle>{t.menu.welcome}</MenuTitle>
+            <MenuTitle>{t('menu.welcome')}</MenuTitle>
           </MenuHeader>
 
           {isLoggedIn && (
@@ -235,22 +236,22 @@ export default function AuthMenuModal({ visible, onClose, onLoginPress, onRegist
 
           <MenuItem onPress={() => handleNavigate('ContactScreen')}>
             <Ionicons name="mail-outline" size={24} color={theme.colors.primary} />
-            <MenuItemText>{t.menu.contacanos}</MenuItemText>
+            <MenuItemText>{t('menu.contacanos')}</MenuItemText>
           </MenuItem>
 
-          <MenuItem onPress={() => handleAuthGated('MyOrdersScreen', t.toast.loginToSeeOrders)}>
+          <MenuItem onPress={() => handleAuthGated('MyOrdersScreen', t('toast.loginToSeeOrders'))}>
             <Ionicons name="receipt-outline" size={24} color={theme.colors.primary} />
-            <MenuItemText>{t.menu.misPedidos}</MenuItemText>
+            <MenuItemText>{t('menu.misPedidos')}</MenuItemText>
           </MenuItem>
 
-          <MenuItem onPress={() => handleAuthGated('HelpScreen', t.toast.loginToSeeHelp)}>
+          <MenuItem onPress={() => handleAuthGated('HelpScreen', t('toast.loginToSeeHelp'))}>
             <Ionicons name="help-circle-outline" size={24} color={theme.colors.primary} />
-            <MenuItemText>{t.menu.ayuda}</MenuItemText>
+            <MenuItemText>{t('menu.ayuda')}</MenuItemText>
           </MenuItem>
 
           <MenuItem onPress={() => handleNavigate('FavoritesScreen')}>
             <Ionicons name="heart-outline" size={24} color={theme.colors.primary} />
-            <MenuItemText>{t.menu.favoritos}</MenuItemText>
+            <MenuItemText>{t('menu.favoritos')}</MenuItemText>
           </MenuItem>
 
           <MenuDivider />
@@ -258,18 +259,18 @@ export default function AuthMenuModal({ visible, onClose, onLoginPress, onRegist
           {isLoggedIn ? (
             <MenuItem onPress={handleLogout}>
               <Ionicons name="log-out-outline" size={24} color={theme.colors.error} />
-              <LogoutText>{t.menu.cerrarSesion}</LogoutText>
+              <LogoutText>{t('menu.cerrarSesion')}</LogoutText>
             </MenuItem>
           ) : (
             <>
               <MenuItem onPress={handleLogin}>
                 <Ionicons name="log-in-outline" size={24} color={theme.colors.primary} />
-                <MenuItemText>{t.menu.iniciarSesion}</MenuItemText>
+                <MenuItemText>{t('menu.iniciarSesion')}</MenuItemText>
               </MenuItem>
 
               <MenuItem onPress={handleRegister}>
                 <Ionicons name="person-add-outline" size={24} color={theme.colors.primary} />
-                <MenuItemText>{t.menu.registrarse}</MenuItemText>
+                <MenuItemText>{t('menu.registrarse')}</MenuItemText>
               </MenuItem>
             </>
           )}

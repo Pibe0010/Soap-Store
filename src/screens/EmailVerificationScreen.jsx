@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 import { theme } from '../styles/theme';
 import { supabase } from '../services/index';
 import * as S from '../styles/EmailVerificationScreenStyles';
 
 export default function EmailVerificationScreen({ navigation, route }) {
+  const { t } = useTranslation();
   const { user, loading: authLoading } = useAuth();
   const [verificationLoading, setVerificationLoading] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(0);
@@ -51,9 +53,9 @@ export default function EmailVerificationScreen({ navigation, route }) {
       if (error) throw error;
 
       setResendCooldown(60);
-      Alert.alert('Éxito', 'El email de verificación ha sido reenviado.');
+      Alert.alert(t('auth.emailResent'), t('auth.emailResentSubtitle'));
     } catch (error) {
-      Alert.alert('Error', error.message || 'No se pudo reenviar el email.');
+      Alert.alert(t('common.error'), error.message || t('auth.resendError'));
     } finally {
       setVerificationLoading(false);
     }
@@ -75,8 +77,8 @@ export default function EmailVerificationScreen({ navigation, route }) {
     return (
       <S.Container>
         <Ionicons name="checkmark-circle" size={80} color={theme.colors.primary} />
-        <S.Title>¡Email verificado!</S.Title>
-        <S.Subtitle>Redirigiendo...</S.Subtitle>
+        <S.Title>{t('auth.emailVerified')}</S.Title>
+        <S.Subtitle>{t('auth.redirecting')}</S.Subtitle>
       </S.Container>
     );
   }
@@ -84,13 +86,13 @@ export default function EmailVerificationScreen({ navigation, route }) {
   return (
     <S.Container>
       <Ionicons name="mail-unread-outline" size={80} color={theme.colors.primary} />
-      <S.Title>Verificá tu email</S.Title>
+      <S.Title>{t('auth.verifyEmail')}</S.Title>
       <S.Subtitle>
-        Te enviamos un email de verificación a:
+        {t('auth.verifyEmailSubtitle')}
       </S.Subtitle>
-      <S.Email>{user?.email || 'tu email'}</S.Email>
+      <S.Email>{user?.email || t('auth.yourEmail')}</S.Email>
       <S.Instruction>
-        Hacé clic en el enlace del email para verificar tu cuenta.
+        {t('auth.verifyEmailInstruction')}
       </S.Instruction>
 
       <S.Button
@@ -102,14 +104,14 @@ export default function EmailVerificationScreen({ navigation, route }) {
         ) : (
           <S.ButtonText>
             {resendCooldown > 0
-              ? `Reenviar en ${resendCooldown}s`
-              : 'Reenviar email de verificación'}
+              ? `${t('auth.resendIn')} ${resendCooldown}s`
+              : t('auth.resendEmail')}
           </S.ButtonText>
         )}
       </S.Button>
 
       <S.BackButton onPress={handleGoBack}>
-        <S.BackButtonText>Volver atrás</S.BackButtonText>
+        <S.BackButtonText>{t('auth.goBack')}</S.BackButtonText>
       </S.BackButton>
     </S.Container>
   );
