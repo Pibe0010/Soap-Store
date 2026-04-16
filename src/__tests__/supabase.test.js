@@ -10,74 +10,74 @@ describe('Supabase Auth Service', () => {
   });
 
   describe('signUpWithEmailPassword', () => {
-    itraduction('should be defined', () => {
-      expectraduction(authService.signUpWithEmailPassword).toBeDefined();
+    it('should be defined', () => {
+      expect(authService.signUpWithEmailPassword).toBeDefined();
     });
   });
 
   describe('signInWithEmailPassword', () => {
-    itraduction('should be defined', () => {
-      expectraduction(authService.signInWithEmailPassword).toBeDefined();
+    it('should be defined', () => {
+      expect(authService.signInWithEmailPassword).toBeDefined();
     });
   });
 
   describe('signInWithGoogle', () => {
-    itraduction('should be defined', () => {
-      expectraduction(authService.signInWithGoogle).toBeDefined();
+    it('should be defined', () => {
+      expect(authService.signInWithGoogle).toBeDefined();
     });
   });
 
   describe('signInWithApple', () => {
-    itraduction('should be defined', () => {
-      expectraduction(authService.signInWithApple).toBeDefined();
+    it('should be defined', () => {
+      expect(authService.signInWithApple).toBeDefined();
     });
   });
 
   describe('signOut', () => {
-    itraduction('should be defined', () => {
-      expectraduction(authService.signOut).toBeDefined();
+    it('should be defined', () => {
+      expect(authService.signOut).toBeDefined();
     });
   });
 
   describe('resetPasswordForEmail', () => {
-    itraduction('should be defined', () => {
-      expectraduction(authService.resetPasswordForEmail).toBeDefined();
+    it('should be defined', () => {
+      expect(authService.resetPasswordForEmail).toBeDefined();
     });
   });
 
   describe('verifyEmailOTP', () => {
-    itraduction('should be defined', () => {
-      expectraduction(authService.verifyEmailOTP).toBeDefined();
+    it('should be defined', () => {
+      expect(authService.verifyEmailOTP).toBeDefined();
     });
   });
 
   describe('sendMagicLinkEmail', () => {
-    itraduction('should be defined', () => {
-      expectraduction(authService.sendMagicLinkEmail).toBeDefined();
+    it('should be defined', () => {
+      expect(authService.sendMagicLinkEmail).toBeDefined();
     });
   });
 
   describe('getUser', () => {
-    itraduction('should be defined', () => {
-      expectraduction(authService.getUser).toBeDefined();
+    it('should be defined', () => {
+      expect(authService.getUser).toBeDefined();
     });
   });
 
   describe('updateUserPassword', () => {
-    itraduction('should be defined', () => {
-      expectraduction(authService.updateUserPassword).toBeDefined();
+    it('should be defined', () => {
+      expect(authService.updateUserPassword).toBeDefined();
     });
   });
 
   describe('getSession', () => {
-    itraduction('should be defined', () => {
-      expectraduction(authService.getSession).toBeDefined();
+    it('should be defined', () => {
+      expect(authService.getSession).toBeDefined();
     });
   });
 
   describe('resendVerificationEmail', () => {
-    itraduction('should be defined', () => {
-      expectraduction(authService.resendVerificationEmail).toBeDefined();
+    it('should be defined', () => {
+      expect(authService.resendVerificationEmail).toBeDefined();
     });
   });
 });
