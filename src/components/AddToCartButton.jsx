@@ -3,7 +3,7 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { Ionicons } from '@expo/vector-icons';
-import { t } from '../constants/translations';
+import { useTranslation } from 'react-i18next';
 import { Button, ButtonText, ButtonContent } from '../styles/AddToCartButtonStyles';
 import NavigationContext from '../navigation/NavigationContext';
 
@@ -20,6 +20,7 @@ import NavigationContext from '../navigation/NavigationContext';
  * @returns {JSX.Element}
  */
 export default function AddToCartButton({ product, size = 'medium' }) {
+  const { t } = useTranslation();
   const { addItem } = useCart();
   const { isLoggedIn } = useAuth();
   const { showToast } = useToast();
@@ -27,7 +28,7 @@ export default function AddToCartButton({ product, size = 'medium' }) {
 
   const handleAddToCart = () => {
     if (!isLoggedIn) {
-      showToast(t.toast.loginToAddCart, t.toast.loginButton, () => {
+      showToast(t('toast.loginToAddCart'), t('toast.loginButton'), () => {
         // Login is inside HomeStack (InicioTab), so we need to navigate there properly
         // First navigate to InicioTab, then to Login
         const parent = navigationRef.current?.getParent();
@@ -46,7 +47,7 @@ export default function AddToCartButton({ product, size = 'medium' }) {
     <Button onPress={handleAddToCart} size={size}>
       <ButtonContent>
         <Ionicons name="cart-outline" size={size === 'small' ? 16 : 20} color="white" />
-        <ButtonText size={size}>{t.addToCart}</ButtonText>
+        <ButtonText size={size}>{t('addToCart')}</ButtonText>
       </ButtonContent>
     </Button>
   );

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '../services/index';
 import { theme } from '../styles/theme';
 import FormInput from '../components/FormInput';
@@ -9,6 +10,7 @@ import { useFormValidation } from '../hooks/useFormValidation';
 import * as S from '../styles/ResetPasswordScreenStyles';
 
 export default function ResetPasswordScreen() {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const route = useRoute();
   const { isValidPassword, passwordError } = useFormValidation();
@@ -23,7 +25,7 @@ export default function ResetPasswordScreen() {
   useEffect(() => {
     const { token, type } = route.params || {};
     if (!token || type !== 'recovery') {
-      setTokenError('El enlace de recuperación no es válido o expiró.');
+      setTokenError(t('auth.invalidResetLink'));
     }
   }, [route.params]);
 
@@ -31,15 +33,15 @@ export default function ResetPasswordScreen() {
     const errors = {};
 
     if (!password) {
-      errors.password = 'La nueva contraseña es obligatoria';
+      errors.password = t('auth.newPasswordRequired');
     } else if (!isValidPassword(password)) {
-      errors.password = 'La contraseña debe tener al menos 8 caracteres';
+      errors.password = t('auth.passwordMinLength');
     }
 
     if (!confirmPassword) {
-      errors.confirmPassword = 'La confirmación es obligatoria';
+      errors.confirmPassword = t('auth.confirmPasswordRequired');
     } else if (password !== confirmPassword) {
-      errors.confirmPassword = 'Las contraseñas no coinciden';
+      errors.confirmPassword = t('auth.passwordsNotMatch');
     }
 
     setValidationErrors(errors);
@@ -64,17 +66,17 @@ export default function ResetPasswordScreen() {
       if (error) throw error;
 
       Alert.alert(
-        'Contraseña actualizada',
-        'Tu contraseña fue actualizada. Por motivos de seguridad, te recomendamos cambiarla periódicamente.',
+        t('auth.passwordResetTitle'),
+        t('auth.passwordResetSubtitle'),
         [
           {
-            text: 'Iniciar sesión',
+            text: t('auth.login'),
             onPress: () => navigation.navigate('Login'),
           },
         ]
       );
     } catch (error) {
-      setLocalError(error.message || 'No se pudo restablecer la contraseña');
+      setLocalError(error.message || t('auth.resetPasswordError'));
     } finally {
       setLoading(false);
     }
@@ -88,10 +90,10 @@ export default function ResetPasswordScreen() {
     return (
       <S.Container>
         <Ionicons name="alert-circle" size={80} color={theme.colors.error} />
-        <S.Title>Enlace inválido</S.Title>
+        <S.Title>{t('auth.invalidLink')}</S.Title>
         <S.Subtitle>{tokenError}</S.Subtitle>
         <S.Button onPress={handleGoBack}>
-          <S.ButtonText>Volver al login</S.ButtonText>
+          <S.ButtonText>{t('auth.backToLogin')}</S.ButtonText>
         </S.Button>
       </S.Container>
     );
@@ -106,15 +108,15 @@ export default function ResetPasswordScreen() {
 
         <S.Header>
           <Ionicons name="lock-closed-outline" size={60} color={theme.colors.primary} />
-          <S.Title>Nueva contraseña</S.Title>
+          <S.Title>{t('auth.newPasswordTitle')}</S.Title>
           <S.Subtitle>
-            Ingresá tu nueva contraseña. Por motivos de seguridad, debe ser diferente a la anterior.
+            {t('auth.newPasswordSubtitle')}
           </S.Subtitle>
         </S.Header>
 
         <S.Form>
           <FormInput
-            placeholder="Nueva contraseña"
+            placeholder={t('auth.newPassword')}
             value={password}
             onChangeText={setPassword}
             secureTextEntry
@@ -122,7 +124,7 @@ export default function ResetPasswordScreen() {
           />
 
           <FormInput
-            placeholder="Confirmar nueva contraseña"
+            placeholder={t('auth.confirmNewPassword')}
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry
@@ -133,7 +135,7 @@ export default function ResetPasswordScreen() {
             <S.HintIcon>
               <Ionicons name="information-circle-outline" size={16} color={theme.colors.textSecondary} />
             </S.HintIcon>
-            <S.HintText>Mínimo 8 caracteres, al menos una mayúscula y un número</S.HintText>
+            <S.HintText>{t('auth.passwordHint')}</S.HintText>
           </S.HintContainer>
 
           {localError && (
@@ -149,7 +151,7 @@ export default function ResetPasswordScreen() {
             {loading ? (
               <ActivityIndicator size="small" color={theme.colors.white} />
             ) : (
-              <S.ButtonText>Actualizar contraseña</S.ButtonText>
+              <S.ButtonText>{t('auth.updatePassword')}</S.ButtonText>
             )}
           </S.Button>
         </S.Form>

@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useAddresses } from '../hooks/useAddresses';
-import { t } from '../constants/translations';
+import { useTranslation } from 'react-i18next';
 import { theme } from '../styles/theme';
 import {
   Container,
@@ -32,6 +32,7 @@ import {
  * @returns {JSX.Element}
  */
 export default function AddressesScreen() {
+  const { t } = useTranslation();
   const { addresses, loading, removeAddress, updateAddress, refresh } = useAddresses();
   const navigation = useNavigation();
 
@@ -44,11 +45,11 @@ export default function AddressesScreen() {
 
   const handleDelete = (address) => {
     Alert.alert(
-      'Eliminar dirección',
-      `¿Eliminar "${address.label}"?`,
+      t('address.deleteTitle'),
+      t('address.deleteConfirm'),
       [
-        { text: t.cart.cancel, style: 'cancel' },
-        { text: 'Eliminar', onPress: () => removeAddress(address.id), style: 'destructive' },
+        { text: t('cart.cancel'), style: 'cancel' },
+        { text: t('address.delete'), onPress: () => removeAddress(address.id), style: 'destructive' },
       ]
     );
   };
@@ -82,10 +83,10 @@ export default function AddressesScreen() {
     return (
       <Container>
         <Header>
-          <HeaderTitle>{t.perfil.menu.addresses}</HeaderTitle>
+          <HeaderTitle>{t('perfil.menu.addresses')}</HeaderTitle>
         </Header>
         <EmptyContainer>
-          <EmptyText>Cargando direcciones...</EmptyText>
+          <EmptyText>{t('address.loading')}</EmptyText>
         </EmptyContainer>
       </Container>
     );
@@ -95,16 +96,16 @@ export default function AddressesScreen() {
     return (
       <Container>
         <Header>
-          <HeaderTitle>{t.perfil.menu.addresses}</HeaderTitle>
+          <HeaderTitle>{t('perfil.menu.addresses')}</HeaderTitle>
         </Header>
         <EmptyContainer>
           <Ionicons name="location-outline" size={80} color={theme.colors.disabled} />
-          <EmptyText>No tenés direcciones guardadas</EmptyText>
-          <EmptySubtext>Agregá una dirección para agilizar tus compras</EmptySubtext>
+          <EmptyText>{t('address.empty')}</EmptyText>
+          <EmptySubtext>{t('address.emptySubtitle')}</EmptySubtext>
         </EmptyContainer>
         <AddButton onPress={handleAdd}>
           <Ionicons name="add-circle" size={24} color={theme.colors.white} />
-          <AddButtonText>Agregar dirección</AddButtonText>
+          <AddButtonText>{t('address.add')}</AddButtonText>
         </AddButton>
       </Container>
     );
@@ -113,7 +114,7 @@ export default function AddressesScreen() {
   return (
     <Container>
       <Header>
-        <HeaderTitle>{t.perfil.menu.addresses}</HeaderTitle>
+        <HeaderTitle>{t('perfil.menu.addresses')}</HeaderTitle>
       </Header>
 
       {addresses.map((addr) => (
@@ -122,7 +123,7 @@ export default function AddressesScreen() {
             <AddressLabel>{addr.label}</AddressLabel>
             {addr.isDefault && (
               <DefaultBadge>
-                <DefaultBadgeText>Principal</DefaultBadgeText>
+                <DefaultBadgeText>{t('address.default')}</DefaultBadgeText>
               </DefaultBadge>
             )}
           </AddressHeader>
@@ -138,7 +139,7 @@ export default function AddressesScreen() {
                 onPress={() => handleSetDefault(addr)}
               >
                 <Ionicons name="star-outline" size={14} color={theme.colors.info} />
-                <ActionButtonText textColor={theme.colors.info}>Principal</ActionButtonText>
+                <ActionButtonText textColor={theme.colors.info}>{t('address.default')}</ActionButtonText>
               </ActionButton>
             )}
             <ActionButton
@@ -146,14 +147,14 @@ export default function AddressesScreen() {
               onPress={() => handleEdit(addr)}
             >
               <Ionicons name="create-outline" size={14} color={theme.colors.warning} />
-              <ActionButtonText textColor={theme.colors.warning}>Editar</ActionButtonText>
+              <ActionButtonText textColor={theme.colors.warning}>{t('address.edit')}</ActionButtonText>
             </ActionButton>
             <ActionButton
               bgColor={theme.colors.error + '20'}
               onPress={() => handleDelete(addr)}
             >
               <Ionicons name="trash-outline" size={14} color={theme.colors.error} />
-              <ActionButtonText textColor={theme.colors.error}>Eliminar</ActionButtonText>
+              <ActionButtonText textColor={theme.colors.error}>{t('address.delete')}</ActionButtonText>
             </ActionButton>
           </AddressActions>
         </AddressCard>
@@ -161,7 +162,7 @@ export default function AddressesScreen() {
 
       <AddButton onPress={handleAdd}>
         <Ionicons name="add-circle" size={24} color={theme.colors.white} />
-        <AddButtonText>Agregar dirección</AddButtonText>
+        <AddButtonText>{t('address.add')}</AddButtonText>
       </AddButton>
     </Container>
   );

@@ -29,13 +29,19 @@ export const Title = styled.Text`
 export const Category = styled.Text`
   font-size: ${theme.typography.fontSizes.sm}px;
   color: ${theme.colors.textSecondary};
+  flex-wrap: wrap;
+  flex: 1;
+`;
+
+export const Label = styled.Text`
+  font-size: ${theme.typography.fontSizes.xs}px;
+  color: ${theme.colors.textSecondary};
 `;
 
 export const Price = styled.Text`
   font-size: ${theme.typography.fontSizes.lg}px;
   font-weight: ${theme.typography.fontWeights.bold};
   color: ${theme.colors.primary};
-  margin-bottom: ${theme.spacing.sm}px;
 `;
 
 export const ButtonContainer = styled.View`

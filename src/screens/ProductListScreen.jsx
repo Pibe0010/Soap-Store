@@ -5,8 +5,8 @@ import { useCategories } from '../hooks/useCategories';
 import ProductCard from '../components/ProductCard';
 import CategoryFilter from '../components/CategoryFilter';
 import { useNavigation } from '@react-navigation/native';
-import { t } from '../constants/translations';
-import { Container, ListContentContainer, ErrorText, RetryText, EmptyText } from '../styles/ProductListStyles';
+import { useTranslation } from 'react-i18next';
+import { Container, ErrorText, RetryText, EmptyText } from '../styles/ProductListStyles';
 import { theme } from '../styles/theme';
 
 /**
@@ -17,6 +17,7 @@ import { theme } from '../styles/theme';
  * @returns {JSX.Element}
  */
 export default function ProductListScreen() {
+  const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const { width } = useWindowDimensions();
   const numColumns = width < 480 ? 1 : width < 768 ? 2 : 3;
@@ -36,9 +37,9 @@ export default function ProductListScreen() {
   if (isError) {
     return (
       <Container>
-        <ErrorText>{t.products.error}: {error.message}</ErrorText>
+        <ErrorText>{t('products.error')}: {error.message}</ErrorText>
         <RetryText onPress={() => refetch()}>
-          {t.products.retry}
+          {t('products.retry')}
         </RetryText>
       </Container>
     );
@@ -47,7 +48,7 @@ export default function ProductListScreen() {
   if (!data || data.data.length === 0) {
     return (
       <Container>
-        <EmptyText>{t.products.empty}</EmptyText>
+        <EmptyText>{t('products.empty')}</EmptyText>
       </Container>
     );
   }
@@ -56,7 +57,7 @@ export default function ProductListScreen() {
     <Container>
       <CategoryFilter
         categories={categories || []}
-        selectedCategory={selectedCategory ?? t.products.allCategories}
+        selectedCategory={selectedCategory ?? t('products.allCategories')}
         onCategoryChange={setSelectedCategory}
       />
 

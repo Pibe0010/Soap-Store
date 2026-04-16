@@ -3,7 +3,7 @@ import { FlatList, useWindowDimensions, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useFavorites } from '../context/FavoritesContext';
 import { useNavigation } from '@react-navigation/native';
-import { t } from '../constants/translations';
+import { useTranslation } from 'react-i18next';
 import { theme } from '../styles/theme';
 import ProductCard from '../components/ProductCard';
 import {
@@ -14,6 +14,7 @@ import {
 } from '../styles/FavoritesScreenStyles';
 
 export default function FavoritesScreen() {
+  const { t } = useTranslation();
   const { favorites, removeFavorite } = useFavorites();
   const { width } = useWindowDimensions();
   const numColumns = width < 480 ? 1 : width < 768 ? 2 : 3;
@@ -30,11 +31,11 @@ export default function FavoritesScreen() {
     }
 
     Alert.alert(
-      t.favoritos.remove,
+      t('favoritos.remove'),
       `¿Eliminar "${productName}" de favoritos?`,
       [
-        { text: t.cart.cancel, style: 'cancel' },
-        { text: t.cart.confirm, onPress: () => removeFavorite(productId), style: 'destructive' },
+        { text: t('cart.cancel'), style: 'cancel' },
+        { text: t('cart.confirm'), onPress: () => removeFavorite(productId), style: 'destructive' },
       ]
     );
   };
@@ -43,8 +44,8 @@ export default function FavoritesScreen() {
     return (
       <EmptyContainer>
         <Ionicons name="heart-outline" size={80} color={theme.colors.disabled} />
-        <EmptyText>{t.favoritos.empty}</EmptyText>
-        <EmptySubtext>{t.favoritos.emptySubtitle}</EmptySubtext>
+        <EmptyText>{t('favoritos.empty')}</EmptyText>
+        <EmptySubtext>{t('favoritos.emptySubtitle')}</EmptySubtext>
       </EmptyContainer>
     );
   }

@@ -5,7 +5,7 @@ import * as FileSystem from 'expo-file-system/legacy';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../services/index';
-import { t } from '../constants/translations';
+import { useTranslation } from 'react-i18next';
 import { theme } from '../styles/theme';
 import {
   Container,
@@ -31,6 +31,7 @@ import {
  * @returns {JSX.Element}
  */
 export default function EditProfileScreen() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [fullName, setFullName] = useState(user?.userMetadata?.name || '');
   const [phone, setPhone] = useState(user?.userMetadata?.phone || '');
@@ -130,10 +131,10 @@ export default function EditProfileScreen() {
         })
         .eq('id', user.id);
 
-      Alert.alert('✅', t.perfil.editProfile.success);
+      Alert.alert('✅', t('perfil.editProfile.success'));
     } catch (err) {
       console.error('Error updating profile:', err);
-      setError(t.perfil.editProfile.error);
+      setError(t('perfil.editProfile.error'));
     } finally {
       setSaving(false);
     }
@@ -156,12 +157,12 @@ export default function EditProfileScreen() {
             </AvatarIcon>
           )}
         </AvatarContainer>
-        <HeaderTitle>{t.perfil.editProfile.title}</HeaderTitle>
+        <HeaderTitle>{t('perfil.editProfile.title')}</HeaderTitle>
       </Header>
 
       <FormContainer>
         <FormGroup>
-          <Label>{t.perfil.editProfile.fullName}</Label>
+          <Label>{t('perfil.editProfile.fullName')}</Label>
           <Input
             value={fullName}
             onChangeText={(text) => {
@@ -175,17 +176,17 @@ export default function EditProfileScreen() {
         </FormGroup>
 
         <FormGroup>
-          <Label>{t.perfil.editProfile.email}</Label>
+          <Label>{t('perfil.editProfile.email')}</Label>
           <InputDisabled
             value={user?.email || ''}
             editable={false}
             selectTextOnFocus={false}
           />
-          <ErrorText>{t.perfil.editProfile.emailHint}</ErrorText>
+          <ErrorText>{t('perfil.editProfile.emailHint')}</ErrorText>
         </FormGroup>
 
         <FormGroup>
-          <Label>{t.perfil.editProfile.phone}</Label>
+          <Label>{t('perfil.editProfile.phone')}</Label>
           <Input
             value={phone}
             onChangeText={setPhone}
@@ -196,7 +197,7 @@ export default function EditProfileScreen() {
 
         <SaveButton onPress={handleSave} disabled={saving}>
           <SaveButtonText>
-            {saving ? t.perfil.editProfile.saving : t.perfil.editProfile.save}
+            {saving ? t('perfil.editProfile.saving') : t('perfil.editProfile.save')}
           </SaveButtonText>
         </SaveButton>
       </FormContainer>

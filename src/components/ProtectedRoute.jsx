@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import {  ActivityIndicator } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import { theme }  from '../styles/theme';
 import { Container }  from '../components/ProtectedRouteStyles';

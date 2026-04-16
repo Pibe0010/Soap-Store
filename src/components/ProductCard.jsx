@@ -1,8 +1,10 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Container, ProductImage, Content, Title, Category, Price, ButtonContainer } from '../styles/ProductCardStyles';
+import { View, Text } from 'react-native';
+import { Container, ProductImage, Content, Title, Category, Price, ButtonContainer, Label } from '../styles/ProductCardStyles';
 import AddToCartButton from './AddToCartButton';
 import FavoriteButton from './FavoriteButton';
+import { useTranslation } from 'react-i18next';
+import { theme } from '../styles/theme';
 
 /**
  * Card component displaying a product with image, name, category, price,
@@ -19,6 +21,13 @@ import FavoriteButton from './FavoriteButton';
  * @returns {JSX.Element}
  */
 export default function ProductCard({ product, onPress, onLongPress }) {
+  const { t } = useTranslation();
+  
+  const getTranslatedCategory = (category) => {
+    const categories = t('products.categories', { returnObjects: true });
+    return categories[category] || category;
+  };
+  
   return (
     <Container onPress={onPress} onLongPress={onLongPress}>
       <View style={{ position: 'relative' }}>
@@ -31,8 +40,14 @@ export default function ProductCard({ product, onPress, onLongPress }) {
       </View>
       <Content>
         <Title>{product.name}</Title>
-        <Category>{product.category}</Category>
-        <Price>{product.price?.toFixed(2) || '0.00'}€</Price>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
+          <Label>{t('products.category')}: </Label>
+          <Category>{getTranslatedCategory(product.category)}</Category>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
+          <Label>{t('products.price')}: </Label>
+          <Price>{product.price?.toFixed(2) || '0.00'} {t('products.currency')}</Price>
+        </View>
         <ButtonContainer>
           <AddToCartButton product={product} size="small" />
         </ButtonContainer>

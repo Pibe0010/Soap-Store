@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Modal } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { t } from '../constants/translations';
+import { useTranslation } from 'react-i18next';
 import { Container, Button, ButtonText, ModalBackground, ModalContent, ModalTitle, PickerContainer, CloseButton, CloseButtonText } from '../styles/CategoryFilterStyles';
 
 /**
@@ -16,6 +16,7 @@ import { Container, Button, ButtonText, ModalBackground, ModalContent, ModalTitl
  * @returns {JSX.Element}
  */
 export default function CategoryFilter({ categories = [], selectedCategory, onCategoryChange }) {
+  const { t } = useTranslation();
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleCategorySelect = (category) => {
@@ -38,7 +39,7 @@ export default function CategoryFilter({ categories = [], selectedCategory, onCa
       >
         <ModalBackground>
           <ModalContent>
-            <ModalTitle>{t.products.selectCategory}</ModalTitle>
+            <ModalTitle>{t('products.selectCategory')}</ModalTitle>
             <PickerContainer>
               <Picker
                 selectedValue={selectedCategory}
@@ -46,7 +47,7 @@ export default function CategoryFilter({ categories = [], selectedCategory, onCa
                   handleCategorySelect(itemValue)
                 }
               >
-                <Picker.Item label={t.products.allCategories} value={t.products.allCategories} />
+                <Picker.Item label={t('products.allCategories')} value={t('products.allCategories')} />
                 {Array.isArray(categories) && categories.map((category) => (
                   <Picker.Item
                     key={category}
@@ -57,7 +58,7 @@ export default function CategoryFilter({ categories = [], selectedCategory, onCa
               </Picker>
             </PickerContainer>
             <CloseButton onPress={() => setModalVisible(false)}>
-              <CloseButtonText>{t.products.close}</CloseButtonText>
+              <CloseButtonText>{t('products.close')}</CloseButtonText>
             </CloseButton>
           </ModalContent>
         </ModalBackground>

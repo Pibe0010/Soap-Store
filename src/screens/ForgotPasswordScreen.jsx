@@ -3,12 +3,14 @@ import { ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { theme } from '../styles/theme';
 import FormInput from '../components/FormInput';
 import { useFormValidation } from '../hooks/useFormValidation';
 import * as S from '../styles/ForgotPasswordScreenStyles';
 
 export default function ForgotPasswordScreen() {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const { resetPassword, loading } = useAuth();
   const { isValidEmail, emailError } = useFormValidation();
@@ -21,7 +23,7 @@ export default function ForgotPasswordScreen() {
     setLocalError(null);
 
     if (!email.trim()) {
-      setLocalError('El email es obligatorio');
+      setLocalError(t('auth.emailRequired'));
       return;
     }
 
@@ -33,7 +35,7 @@ export default function ForgotPasswordScreen() {
       await resetPassword(email);
       setSuccess(true);
     } catch (error) {
-      setLocalError('No se pudo enviar el email de recuperación');
+      setLocalError(t('auth.resetEmailError'));
     }
   };
 
@@ -45,12 +47,12 @@ export default function ForgotPasswordScreen() {
     return (
       <S.Container>
         <Ionicons name="mail-done-outline" size={80} color={theme.colors.primary} />
-        <S.Title>Revisá tu email</S.Title>
+        <S.Title>{t('auth.checkEmail')}</S.Title>
         <S.Subtitle>
-          Si el email existe en nuestro sistema, vas a recibir las instrucciones para restablecer tu contraseña.
+          {t('auth.checkEmailSubtitle')}
         </S.Subtitle>
         <S.Button onPress={handleGoBack}>
-          <S.ButtonText>Volver al login</S.ButtonText>
+          <S.ButtonText>{t('auth.backToLogin')}</S.ButtonText>
         </S.Button>
       </S.Container>
     );
@@ -65,15 +67,15 @@ export default function ForgotPasswordScreen() {
 
         <S.Header>
           <Ionicons name="key-outline" size={60} color={theme.colors.primary} />
-          <S.Title>¿Olvidaste tu contraseña?</S.Title>
+          <S.Title>{t('auth.forgotPassword')}</S.Title>
           <S.Subtitle>
-            Ingresá tu email y te enviaremos las instrucciones para restablecerla.
+            {t('auth.forgotPasswordSubtitle')}
           </S.Subtitle>
         </S.Header>
 
         <S.Form>
           <FormInput
-            placeholder="Email"
+            placeholder={t('auth.email')}
             value={email}
             onChangeText={setEmail}
             autoCapitalize="none"
@@ -92,7 +94,7 @@ export default function ForgotPasswordScreen() {
             {loading ? (
               <ActivityIndicator size="small" color={theme.colors.white} />
             ) : (
-              <S.ButtonText>Enviar email</S.ButtonText>
+              <S.ButtonText>{t('auth.sendEmail')}</S.ButtonText>
             )}
           </S.Button>
         </S.Form>

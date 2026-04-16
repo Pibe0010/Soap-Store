@@ -3,6 +3,7 @@ import { ActivityIndicator, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { theme } from '../styles/theme';
 import FormInput from '../components/FormInput';
 import SocialLoginButton from '../components/SocialLoginButton';
@@ -10,6 +11,7 @@ import { useFormValidation } from '../hooks/useFormValidation';
 import * as S from '../styles/LoginScreenStyles';
 
 export default function LoginScreen() {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const { login, loginWithGoogle, loading, user } = useAuth();
   const { isValidEmail, isValidPassword, emailError, passwordError } = useFormValidation();
@@ -21,14 +23,14 @@ export default function LoginScreen() {
   const handleLogin = async () => {
     setLocalError(null);
     if (!email.trim()) {
-      setLocalError('El email es obligatorio');
+      setLocalError(t('auth.emailRequired'));
       return;
     }
     if (!isValidEmail(email)) {
       return;
     }
     if (!password) {
-      setLocalError('La contraseña es obligatoria');
+      setLocalError(t('auth.passwordRequired'));
       return;
     }
     try {
@@ -72,10 +74,10 @@ export default function LoginScreen() {
 
   const mapAuthError = (error) => {
     const errorMessages = {
-      'Invalid login credentials': 'Email o contraseña incorrectos',
-      'Email not confirmed': 'El email no está verificado',
-      'User already registered': 'Este email ya está registrado',
-      default: error.message || 'Ocurrió un error al iniciar sesión',
+      'Invalid login credentials': t('auth.invalidCredentials'),
+      'Email not confirmed': t('auth.emailNotConfirmed'),
+      'User already registered': t('auth.alreadyRegistered'),
+      default: error.message || t('auth.loginError'),
     };
     return errorMessages[error.message] || errorMessages.default;
   };
@@ -102,12 +104,12 @@ export default function LoginScreen() {
               <Ionicons name="leaf" size={60} color={theme.colors.primary} />
             </S.Logo>
             <S.Title>Soap Store</S.Title>
-            <S.Subtitle>Iniciá sesión para continuar</S.Subtitle>
+            <S.Subtitle>{t('auth.loginSubtitle')}</S.Subtitle>
           </S.Header>
 
           <S.Form>
             <FormInput
-              placeholder="Email"
+              placeholder={t('auth.email')}
               value={email}
               onChangeText={setEmail}
               autoCapitalize="none"
@@ -115,7 +117,7 @@ export default function LoginScreen() {
               error={emailError}
             />
             <FormInput
-              placeholder="Contraseña"
+              placeholder={t('auth.password')}
               value={password}
               onChangeText={setPassword}
               secureTextEntry
@@ -135,18 +137,18 @@ export default function LoginScreen() {
               {loading ? (
                 <ActivityIndicator size="small" color="#FFFFFF" />
               ) : (
-                <S.ButtonText>Iniciar sesión</S.ButtonText>
+                <S.ButtonText>{t('auth.login')}</S.ButtonText>
               )}
             </S.Button>
 
             <S.ForgotPassword onPress={() => navigation.navigate('ForgotPassword')}>
-              <S.ForgotPasswordText>¿Olvidaste tu contraseña?</S.ForgotPasswordText>
+              <S.ForgotPasswordText>{t('auth.forgotPassword')}</S.ForgotPasswordText>
             </S.ForgotPassword>
           </S.Form>
 
           <S.DividerContainer>
             <S.DividerLine />
-            <S.DividerText>o</S.DividerText>
+            <S.DividerText>{t('common.or')}</S.DividerText>
             <S.DividerLine />
           </S.DividerContainer>
 
@@ -156,9 +158,9 @@ export default function LoginScreen() {
 
           <S.FooterContainer>
             <S.Footer>
-              <S.FooterText>¿No tenés cuenta?</S.FooterText>
+              <S.FooterText>{t('auth.noAccount')}</S.FooterText>
               <S.RegisterButton onPress={() => navigation.navigate('Register')}>
-                <S.RegisterLink>Registrarse</S.RegisterLink>
+                <S.RegisterLink>{t('auth.register')}</S.RegisterLink>
               </S.RegisterButton>
             </S.Footer>
           </S.FooterContainer>

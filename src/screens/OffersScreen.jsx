@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { t } from '../constants/translations';
+import { useTranslation } from 'react-i18next';
 import { theme } from '../styles/theme';
 
 /**
@@ -11,6 +11,7 @@ import { theme } from '../styles/theme';
  * @returns {JSX.Element}
  */
 export default function OfertasScreen() {
+  const { t } = useTranslation();
   return (
     <View style={{
       flex: 1,
@@ -26,7 +27,7 @@ export default function OfertasScreen() {
         textAlign: 'center',
         marginTop: 16,
       }}>
-        {t.ofertas.empty}
+        {t('ofertas.empty')}
       </Text>
     </View>
   );

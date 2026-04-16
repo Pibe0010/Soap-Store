@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { FlatList, ActivityIndicator, View } from 'react-native';
+import { FlatList, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useOrders } from '../hooks/useOrders';
-import { t } from '../constants/translations';
+import { useTranslation } from 'react-i18next';
 import { theme } from '../styles/theme';
 import {
   Container,
@@ -27,14 +27,6 @@ import {
   ExpandIcon,
 } from '../styles/MyOrdersScreenStyles';
 
-const STATUS_CONFIG = {
-  pending: { label: t.pedidos.status.pending, color: '#F59E0B', bgColor: '#FEF3C7' },
-  processing: { label: t.pedidos.status.processing, color: '#3B82F6', bgColor: '#DBEAFE' },
-  shipped: { label: t.pedidos.status.shipped, color: '#8B5CF6', bgColor: '#EDE9FE' },
-  delivered: { label: t.pedidos.status.delivered, color: '#10B981', bgColor: '#D1FAE5' },
-  cancelled: { label: t.pedidos.status.cancelled, color: '#EF4444', bgColor: '#FEE2E2' },
-};
-
 /**
  * Screen displaying the user's order history.
  * Shows a list of orders with status badges, totals, and dates.
@@ -43,8 +35,18 @@ const STATUS_CONFIG = {
  * @returns {JSX.Element}
  */
 export default function MyOrdersScreen() {
+  const { t } = useTranslation();
   const { orders, orderItems, getOrderById, loading } = useOrders();
   const [expandedOrderId, setExpandedOrderId] = useState(null);
+
+  // STATUS_CONFIG - computed inside component so translations work
+  const STATUS_CONFIG = {
+    pending: { label: t('pedidos.status.pending'), color: '#F59E0B', bgColor: '#FEF3C7' },
+    processing: { label: t('pedidos.status.processing'), color: '#3B82F6', bgColor: '#DBEAFE' },
+    shipped: { label: t('pedidos.status.shipped'), color: '#8B5CF6', bgColor: '#EDE9FE' },
+    delivered: { label: t('pedidos.status.delivered'), color: '#10B981', bgColor: '#D1FAE5' },
+    cancelled: { label: t('pedidos.status.cancelled'), color: '#EF4444', bgColor: '#FEE2E2' },
+  };
 
   const handleToggleOrder = async (order) => {
     if (expandedOrderId === order.id) {
@@ -81,8 +83,8 @@ export default function MyOrdersScreen() {
     return (
       <EmptyContainer>
         <Ionicons name="receipt-outline" size={80} color={theme.colors.disabled} />
-        <EmptyText>{t.pedidos.empty}</EmptyText>
-        <EmptySubtext>{t.pedidos.emptySubtitle}</EmptySubtext>
+        <EmptyText>{t('pedidos.empty')}</EmptyText>
+        <EmptySubtext>{t('pedidos.emptySubtitle')}</EmptySubtext>
       </EmptyContainer>
     );
   }
@@ -98,7 +100,7 @@ export default function MyOrdersScreen() {
             <OrderDate>{formatDate(order.createdAt)}</OrderDate>
             <OrderTotal>${order.total?.toFixed(2) || '0.00'}</OrderTotal>
             <OrderItemsCount>
-              {t.pedidos.orderNumber} #{order.id.slice(0, 8)}
+              {t('pedidos.orderNumber')} #{order.id.slice(0, 8)}
             </OrderItemsCount>
           </OrderInfo>
           <StatusBadge bgColor={statusConfig.bgColor}>

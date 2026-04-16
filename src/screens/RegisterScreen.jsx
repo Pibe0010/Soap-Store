@@ -3,12 +3,14 @@ import { ActivityIndicator, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { theme } from '../styles/theme';
 import FormInput from '../components/FormInput';
 import { useFormValidation } from '../hooks/useFormValidation';
 import * as S from '../styles/RegisterScreenStyles';
 
 export default function RegisterScreen() {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const { register, loading } = useAuth();
   const { isValidEmail, isValidPassword } = useFormValidation();
@@ -19,22 +21,22 @@ export default function RegisterScreen() {
   const [localError, setLocalError] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
 
-  const validateForm = () => {
+const validateForm = () => {
     const errors = {};
     if (!email.trim()) {
-      errors.email = 'El email es obligatorio';
+      errors.email = t('auth.emailRequired');
     } else if (!isValidEmail(email)) {
-      errors.email = 'Ingresá un email válido';
+      errors.email = t('auth.invalidEmail');
     }
     if (!password) {
-      errors.password = 'La contraseña es obligatoria';
+      errors.password = t('auth.passwordRequired');
     } else if (!isValidPassword(password)) {
-      errors.password = 'La contraseña debe tener al menos 8 caracteres';
+      errors.password = t('auth.passwordMinLength');
     }
     if (!confirmPassword) {
-      errors.confirmPassword = 'La confirmación es obligatoria';
+      errors.confirmPassword = t('auth.confirmPasswordRequired');
     } else if (password !== confirmPassword) {
-      errors.confirmPassword = 'Las contraseñas no coinciden';
+      errors.confirmPassword = t('auth.passwordsNotMatch');
     }
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
@@ -53,10 +55,10 @@ export default function RegisterScreen() {
 
   const mapAuthError = (error) => {
     const errorMessages = {
-      'User already registered': 'Este email ya está registrado',
-      'Password should be at least 6 characters': 'La contraseña debe tener al menos 6 caracteres',
-      'Signup requires a valid password': 'La contraseña no es válida',
-      default: error.message || 'Ocurrió un error al registrarse',
+      'User already registered': t('auth.alreadyRegistered'),
+      'Password should be at least 6 characters': t('auth.passwordMinLength'),
+      'Signup requires a valid password': t('auth.invalidPassword'),
+      default: error.message || t('auth.registerError'),
     };
     return errorMessages[error.message] || errorMessages.default;
   };
@@ -70,13 +72,13 @@ export default function RegisterScreen() {
 
         <S.Header>
           <Ionicons name="person-add" size={60} color={theme.colors.primary} />
-          <S.Title>Crear cuenta</S.Title>
-          <S.Subtitle>Completá tus datos para registrarte</S.Subtitle>
+          <S.Title>{t('auth.createAccount')}</S.Title>
+          <S.Subtitle>{t('auth.registerSubtitle')}</S.Subtitle>
         </S.Header>
 
         <S.Form>
           <FormInput
-            placeholder="Email"
+            placeholder={t('auth.email')}
             value={email}
             onChangeText={setEmail}
             autoCapitalize="none"
@@ -84,14 +86,14 @@ export default function RegisterScreen() {
             error={validationErrors.email}
           />
           <FormInput
-            placeholder="Contraseña"
+            placeholder={t('auth.password')}
             value={password}
             onChangeText={setPassword}
             secureTextEntry
             error={validationErrors.password}
           />
           <FormInput
-            placeholder="Confirmar contraseña"
+            placeholder={t('auth.confirmPassword')}
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry
@@ -102,7 +104,7 @@ export default function RegisterScreen() {
             <S.HintIcon>
               <Ionicons name="information-circle-outline" size={16} color={theme.colors.textSecondary} />
             </S.HintIcon>
-            <S.HintText>Mínimo 8 caracteres, al menos una mayúscula y un número</S.HintText>
+            <S.HintText>{t('auth.passwordHint')}</S.HintText>
           </S.HintContainer>
 
           {localError && (
@@ -118,16 +120,16 @@ export default function RegisterScreen() {
             {loading ? (
               <ActivityIndicator size="small" color="#FFFFFF" />
             ) : (
-              <S.ButtonText>Registrarse</S.ButtonText>
+              <S.ButtonText>{t('auth.register')}</S.ButtonText>
             )}
           </S.Button>
         </S.Form>
 
         <S.FooterContainer>
           <S.Footer>
-            <S.FooterText>¿Ya tenés cuenta?</S.FooterText>
+            <S.FooterText>{t('auth.alreadyAccount')}</S.FooterText>
             <S.LoginButton onPress={() => navigation.goBack()}>
-              <S.LoginLink>Iniciar sesión</S.LoginLink>
+              <S.LoginLink>{t('auth.login')}</S.LoginLink>
             </S.LoginButton>
           </S.Footer>
         </S.FooterContainer>
