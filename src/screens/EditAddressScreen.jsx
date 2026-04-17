@@ -104,6 +104,8 @@ export default function EditAddressScreen() {
     }
   };
 
+   const darkMode = theme.dark ? theme.colors.textSecondary : theme.colors.text;
+
   return (
     <Container>
       <Header>
@@ -119,6 +121,7 @@ export default function EditAddressScreen() {
             value={label}
             onChangeText={(text) => { setLabel(text); setErrors({ ...errors, label: null }); }}
             placeholder={t('address.namePlaceholder')}
+            placeholderTextColor={darkMode}
             autoCapitalize="words"
           />
           {errors.label && <ErrorText>{errors.label}</ErrorText>}
@@ -130,6 +133,7 @@ export default function EditAddressScreen() {
             value={streetAddress}
             onChangeText={(text) => { setStreetAddress(text); setErrors({ ...errors, streetAddress: null }); }}
             placeholder={t('address.streetPlaceholder')}
+            placeholderTextColor={darkMode}
             autoCapitalize="words"
           />
           {errors.streetAddress && <ErrorText>{errors.streetAddress}</ErrorText>}
@@ -141,6 +145,7 @@ export default function EditAddressScreen() {
             value={apartmentUnit}
             onChangeText={setApartmentUnit}
             placeholder={t('address.optional')}
+            placeholderTextColor={darkMode}
           />
         </FormGroup>
 
@@ -150,6 +155,7 @@ export default function EditAddressScreen() {
             value={city}
             onChangeText={(text) => { setCity(text); setErrors({ ...errors, city: null }); }}
             placeholder={t('address.cityPlaceholder')}
+            placeholderTextColor={darkMode}
             autoCapitalize="words"
           />
           {errors.city && <ErrorText>{errors.city}</ErrorText>}
@@ -161,6 +167,7 @@ export default function EditAddressScreen() {
             value={stateProvince}
             onChangeText={setStateProvince}
             placeholder={t('address.statePlaceholder')}
+            placeholderTextColor={darkMode}
             autoCapitalize="words"
           />
         </FormGroup>
@@ -171,6 +178,7 @@ export default function EditAddressScreen() {
             value={postalCode}
             onChangeText={setPostalCode}
             placeholder={t('address.postalCodePlaceholder')}
+            placeholderTextColor={darkMode}
             keyboardType="number-pad"
           />
         </FormGroup>
@@ -181,6 +189,7 @@ export default function EditAddressScreen() {
             value={country}
             onChangeText={(text) => { setCountry(text); setErrors({ ...errors, country: null }); }}
             placeholder={t('address.countryPlaceholder')}
+            placeholderTextColor={darkMode}
             autoCapitalize="words"
           />
           {errors.country && <ErrorText>{errors.country}</ErrorText>}
