@@ -25,6 +25,17 @@ function StyledThemeWrapper({ children }) {
   );
 }
 
+// StatusBar that responds to dark mode
+function AppStatusBar() {
+  const { theme, isDarkMode } = useTheme();
+  
+  return (
+    <StatusBar 
+      style={isDarkMode ? 'light' : 'dark'} 
+    />
+  );
+}
+
 export default function App() {
   // useURL maneja automáticamente cold start y warm start de deep links
   const url = Linking.useURL();
@@ -45,7 +56,7 @@ export default function App() {
                         navigationRef={navigationRef} 
                       />
                     </NavigationContainer>
-                    <StatusBar style="auto" />
+                    <AppStatusBar />
                   </ToastProvider>
                 </CartProvider>
               </FavoritesProvider>
