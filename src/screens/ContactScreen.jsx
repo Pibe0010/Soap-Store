@@ -95,6 +95,8 @@ export default function ContactScreen() {
     });
   };
 
+  const darkMode = theme.dark ? theme.colors.textSecondary : theme.colors.text;
+
   return (
     <Container>
       <Section>
@@ -104,6 +106,7 @@ export default function ContactScreen() {
           <InputLabel>{t('contact.name')}</InputLabel>
           <Input
             placeholder={t('contact.name')}
+            placeholderTextColor={darkMode}
             value={name}
             onChangeText={setName}
             autoCapitalize="words"
@@ -113,6 +116,7 @@ export default function ContactScreen() {
           <InputLabel>{t('contact.email')}</InputLabel>
           <Input
             placeholder="tu@email.com"
+            placeholderTextColor={darkMode}
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -123,6 +127,7 @@ export default function ContactScreen() {
           <InputLabel>{t('contact.message')}</InputLabel>
           <TextArea
             placeholder={t('contact.message')}
+            placeholderTextColor={darkMode}
             value={message}
             onChangeText={setMessage}
             multiline

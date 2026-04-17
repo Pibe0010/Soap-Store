@@ -47,11 +47,22 @@ const MenuButton = ({ onPress }) => {
 };
 
 function HomeStack({ setModalVisible }) {
-  const { t } = useTranslation();
+const { t } = useTranslation();
   const { theme } = useTheme();
   
+  const screenOptions = {
+    headerStyle: {
+      backgroundColor: theme.dark ? theme.colors.surface : theme.colors.background,
+    },
+    headerTintColor: theme.colors.primary,
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+    headerShadowVisible: false,
+  };
+  
   return (
-    <AppStack.Navigator>
+    <AppStack.Navigator screenOptions={screenOptions}>
       <AppStack.Screen
       name="ProductList"
         component={ProductListScreen}
@@ -59,11 +70,11 @@ function HomeStack({ setModalVisible }) {
           headerTitle: () => (
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Ionicons name="leaf" size={24} color={theme.colors.primary} />
-              <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.text }}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.primary }}>
                 Soap Store
               </Text>
             </View>
-        ),
+          ),
           headerRight: () => <MenuButton onPress={() => setModalVisible(true)} />,
         })}
         
@@ -75,7 +86,7 @@ function HomeStack({ setModalVisible }) {
           headerTitle: () => (
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Ionicons name="pricetag" size={20} color={theme.colors.primary} />
-              <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.text }}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.primary }}>
                 {t('products.detailTitle')}
               </Text>
             </View>
@@ -90,7 +101,7 @@ function HomeStack({ setModalVisible }) {
           headerTitle: () => (
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Ionicons name="cart" size={24} color={theme.colors.primary} />
-              <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.text }}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.primary }}>
                 {t('cart.title')}
               </Text>
             </View>
@@ -106,7 +117,7 @@ function HomeStack({ setModalVisible }) {
           headerTitle: () => (
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Ionicons name="mail" size={24} color={theme.colors.primary} />
-              <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.text }}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.primary }}>
                 {t('contact.title')}
               </Text>
             </View>
@@ -121,7 +132,7 @@ function HomeStack({ setModalVisible }) {
           headerTitle: () => (
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Ionicons name="receipt" size={24} color={theme.colors.primary} />
-              <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.text }}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.primary }}>
                 {t('menu.misPedidos')}
               </Text>
             </View>
@@ -136,7 +147,7 @@ function HomeStack({ setModalVisible }) {
           headerTitle: () => (
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Ionicons name="help-circle" size={24} color={theme.colors.primary} />
-              <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.text }}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.primary }}>
                 {t('ayuda.title')}
               </Text>
             </View>
@@ -151,7 +162,7 @@ function HomeStack({ setModalVisible }) {
           headerTitle: () => (
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Ionicons name="heart" size={24} color={theme.colors.primary} />
-              <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.text }}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', color: theme.colors.primary }}>
                 {t('favoritos.title')}
               </Text>
             </View>

@@ -105,7 +105,7 @@ export default function CartScreen() {
   );
 
    return (
-       <SafeAreaView style={{ flex: 1 }} edges={['top']}>
+       <SafeAreaView style={{ flex: 1, backgroundColor: theme.dark ? theme.colors.background : theme.colors.background, }} edges={['top']}>
          <Container style={{ flex: 1 }}>
            <Header>
              <Title>{t('cart.title')}</Title>
