@@ -6,16 +6,15 @@ import { useAuth } from './AuthContext';
 
 // Lazy load expo-notifications to avoid crashes in Expo Go
 let Notifications = null;
-let Constants = null;
 let isExpoGo = true;
 
 try {
   const notifs = require('expo-notifications');
   Notifications = notifs;
   
+  // eslint-disable-next-line no-unused-vars
   const consts = require('expo-constants');
-  Constants = consts;
-  isExpoGo = Constants?.executionEnvironment === 'storeClient';
+  isExpoGo = consts?.executionEnvironment === 'storeClient';
 } catch (e) {
   console.log('Running in Expo Go - notifications disabled');
 }
