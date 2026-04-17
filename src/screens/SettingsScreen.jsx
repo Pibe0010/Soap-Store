@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
+import { useNotifications } from '../context/NotificationContext';
 import ToggleSwitch from '../components/ToggleSwitch';
 import {
   Container,
@@ -32,7 +33,15 @@ export default function SettingsScreen() {
   const { t } = useTranslation();
   const { language, changeLanguage } = useLanguage();
   const { theme, isDarkMode, setDarkMode } = useTheme();
-  const [notificationsEnabled, setNotificationsEnabled] = React.useState(true);
+  const { 
+    pushEnabled, 
+    emailEnabled, 
+    permissionsGranted,
+    isExpoGo,
+    setPushEnabled, 
+    setEmailEnabled,
+    requestPermissions 
+  } = useNotifications();
 
   const languages = [
     { code: 'es', label: t('languages.es') },
@@ -94,28 +103,56 @@ export default function SettingsScreen() {
 
       <SectionTitle>{t('ajustes.sections.notifications')}</SectionTitle>
       <Section>
-        <MenuItem onPress={() => setNotificationsEnabled(!notificationsEnabled)}>
+        <MenuItem onPress={async () => {
+          if (!permissionsGranted && !isExpoGo) {
+            const granted = await requestPermissions();
+            if (granted) {
+              setPushEnabled(true);
+            }
+          } else if (isExpoGo) {
+            Alert.alert(
+              t('ajustes.notifications.unavailable'),
+              t('ajustes.notifications.unavailableMessage')
+            );
+          } else {
+            setPushEnabled(!pushEnabled);
+          }
+        }}>
           <MenuItemIcon bgColor={theme.colors.warning + '20'}>
             <Ionicons name="notifications-outline" size={22} color={theme.colors.warning} />
           </MenuItemIcon>
           <MenuItemText>{t('ajustes.menu.pushNotifications')}</MenuItemText>
           <ToggleContainer>
             <ToggleSwitch 
-              active={notificationsEnabled} 
-              onPress={() => setNotificationsEnabled(!notificationsEnabled)} 
+              active={pushEnabled} 
+              onPress={async () => {
+                if (!permissionsGranted && !isExpoGo) {
+                  const granted = await requestPermissions();
+                  if (granted) {
+                    setPushEnabled(true);
+                  }
+                } else if (isExpoGo) {
+                  Alert.alert(
+                    t('ajustes.notifications.unavailable'),
+                    t('ajustes.notifications.unavailableMessage')
+                  );
+                } else {
+                  setPushEnabled(!pushEnabled);
+                }
+              }} 
             />
           </ToggleContainer>
         </MenuItem>
 
-        <MenuItem onPress={() => setNotificationsEnabled(!notificationsEnabled)}>
+        <MenuItem onPress={() => setEmailEnabled(!emailEnabled)}>
           <MenuItemIcon bgColor={theme.colors.info + '20'}>
             <Ionicons name="mail-outline" size={22} color={theme.colors.info} />
           </MenuItemIcon>
           <MenuItemText>{t('ajustes.menu.emailNotifications')}</MenuItemText>
           <ToggleContainer>
             <ToggleSwitch 
-              active={notificationsEnabled} 
-              onPress={() => setNotificationsEnabled(!notificationsEnabled)} 
+              active={emailEnabled} 
+              onPress={() => setEmailEnabled(!emailEnabled)} 
             />
           </ToggleContainer>
         </MenuItem>

@@ -158,6 +158,10 @@
       "version": "App version",
       "help": "Help and support",
       "privacy": "Privacy policy"
+    },
+    "notifications": {
+      "unavailable": "Feature unavailable",
+      "unavailableMessage": "Push notifications require a development build. This feature will be available in production."
     }
   },
   "pedidos": {

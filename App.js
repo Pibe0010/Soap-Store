@@ -6,6 +6,7 @@ import { AuthProvider } from './src/context/AuthContext';
 import { ToastProvider } from './src/context/ToastContext';
 import { FavoritesProvider } from './src/context/FavoritesContext';
 import { LanguageProvider } from './src/context/LanguageContext';
+import { NotificationProvider } from './src/context/NotificationContext';
 import { ThemeProvider, useTheme } from './src/context/ThemeContext';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import './src/i18n';
@@ -47,19 +48,21 @@ export default function App() {
         <StyledThemeWrapper>
           <LanguageProvider>
             <AuthProvider>
-              <FavoritesProvider>
-                <CartProvider>
-                  <ToastProvider>
-                    <NavigationContainer ref={navigationRef}>
-                      <AppNavigator 
-                        initialUrl={url} 
-                        navigationRef={navigationRef} 
-                      />
-                    </NavigationContainer>
-                    <AppStatusBar />
-                  </ToastProvider>
-                </CartProvider>
-              </FavoritesProvider>
+              <NotificationProvider>
+                <FavoritesProvider>
+                  <CartProvider>
+                    <ToastProvider>
+                      <NavigationContainer ref={navigationRef}>
+                        <AppNavigator 
+                          initialUrl={url} 
+                          navigationRef={navigationRef} 
+                        />
+                      </NavigationContainer>
+                      <AppStatusBar />
+                    </ToastProvider>
+                  </CartProvider>
+                </FavoritesProvider>
+              </NotificationProvider>
             </AuthProvider>
           </LanguageProvider>
         </StyledThemeWrapper>
