@@ -151,6 +151,10 @@
       "version": "Versão do app",
       "help": "Ajuda e suporte",
       "privacy": "Política de privacidade"
+    },
+    "notifications": {
+      "unavailable": "Funcionalidade indisponível",
+      "unavailableMessage": "As notificações push requerem uma build de desenvolvimento. Esta função estará disponível em produção."
     }
   },
   "pedidos": {
