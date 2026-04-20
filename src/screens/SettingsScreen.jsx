@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import Constants from 'expo-constants';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { useNotifications } from '../context/NotificationContext';
@@ -42,6 +43,9 @@ export default function SettingsScreen() {
     setEmailEnabled,
     requestPermissions 
   } = useNotifications();
+
+  // Get app version from expo-constants
+  const appVersion = Constants?.expoConfig?.version || Constants?.manifest?.version || '1.0.0';
 
   const languages = [
     { code: 'es', label: t('languages.es') },
@@ -165,7 +169,7 @@ export default function SettingsScreen() {
             <Ionicons name="information-circle-outline" size={22} color={theme.colors.success} />
           </MenuItemIcon>
           <MenuItemText>{t('ajustes.menu.version')}</MenuItemText>
-          <LanguageText>{t('app.version')}</LanguageText>
+          <LanguageText>{appVersion}</LanguageText>
         </MenuItem>
 
         <MenuItem onPress={() => navigation.navigate('Help')}>
