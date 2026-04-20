@@ -93,4 +93,5 @@ export const LinkButton = styled.TouchableOpacity`
 export const LinkButtonText = styled.Text`
   font-size: ${(props) => props.theme.typography.fontSizes.md}px;
   color: ${(props) => props.theme.colors.text};
+  width: 100%;
 `;

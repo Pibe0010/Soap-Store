@@ -172,7 +172,7 @@ export default function SettingsScreen() {
           <LanguageText>{appVersion}</LanguageText>
         </MenuItem>
 
-        <MenuItem onPress={() => navigation.navigate('Help')}>
+        <MenuItem onPress={() => navigation.navigate('AppStack', { screen: 'HelpScreen' })}>
           <MenuItemIcon bgColor={theme.colors.primary + '20'}>
             <Ionicons name="help-circle-outline" size={22} color={theme.colors.primary} />
           </MenuItemIcon>
@@ -182,7 +182,7 @@ export default function SettingsScreen() {
           </MenuItemArrow>
         </MenuItem>
 
-        <MenuItem onPress={() => navigation.navigate('ContactScreen')}>
+        <MenuItem onPress={() => navigation.navigate('AppStack', { screen: 'ContactScreen' })}>
           <MenuItemIcon bgColor={theme.colors.error + '20'}>
             <Ionicons name="shield-checkmark-outline" size={22} color={theme.colors.error} />
           </MenuItemIcon>
