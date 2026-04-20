@@ -184,7 +184,23 @@
   },
   "ayuda": {
     "title": "Ayuda y Preguntas Frecuentes",
-    "body": "Estamos acá para ayudarte. Si tenés alguna duda o necesitás asistencia, no dudes en contactarnos."
+    "body": "Estamos acá para ayudarte. Si tenés alguna duda o necesitás asistencia, no dudes en contactarnos.",
+    "faq": {
+      "title": "Preguntas Frecuentes",
+      "howToOrder": "¿Cómo hago un pedido?",
+      "howToOrderAnswer": "Explorá nuestros jabones, agregá los que te gusten al carrito y procedé con el checkout.",
+      "howToTrack": "¿Cómo sigo mi pedido?",
+      "howToTrackAnswer": "Iniciá sesión y andá a 'Mis pedidos' para ver el estado de tu entrega.",
+      "paymentMethods": "¿Cuáles son los métodos de pago?",
+      "paymentMethodsAnswer": "Aceptamos tarjetas de crédito, débito y MercadoPago.",
+      "returns": "¿Tienen política de devolución?",
+      "returnsAnswer": "Sí, si el producto no te convencés podés devolvérnoslo dentro de los 30 días."
+    },
+    "buttons": {
+      "contact": "Contactános",
+      "privacy": "Política de Privacidad",
+      "terms": "Términos y Condiciones"
+    }
   },
   "favoritos": {
     "title": "Favoritos",
