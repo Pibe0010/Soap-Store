@@ -177,7 +177,23 @@
   },
   "ayuda": {
     "title": "Ajuda e Perguntas Frequentes",
-    "body": "Estamos aqui para ajudar. Se você tiver alguma dúvida ou precisar de assistência, não hesite em nos contatar."
+    "body": "Estamos aqui para ajudar. Se você tiver alguma dúvida ou precisar de assistência, não hesite em nos contatar.",
+    "faq": {
+      "title": "Perguntas Frequentes",
+      "howToOrder": "Como faço um pedido?",
+      "howToOrderAnswer": "Navegue pelos nossos sabonetes, adicione os que você gosta ao carrinho e prossiga para o checkout.",
+      "howToTrack": "Como acompanho meu pedido?",
+      "howToTrackAnswer": "Faça login e vá até 'Meus Pedidos' para ver o status da entrega.",
+      "paymentMethods": "Quais são as formas de pagamento?",
+      "paymentMethodsAnswer": "Aceitamos cartões de crédito, débito e MercadoPago.",
+      "returns": "Vocês têm política de devolução?",
+      "returnsAnswer": "Sim, se o produto não te agradar, você pode devolvê-lo em até 30 dias."
+    },
+    "buttons": {
+      "contact": "Fale Conosco",
+      "privacy": "Política de Privacidade",
+      "terms": "Termos e Condições"
+    }
   },
   "favoritos": {
     "title": "Favoritos",

@@ -184,7 +184,23 @@
   },
   "ayuda": {
     "title": "Help and FAQ",
-    "body": "We are here to help you. If you have any questions or need assistance, feel free to contact us."
+    "body": "We are here to help you. If you have any questions or need assistance, feel free to contact us.",
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "howToOrder": "How do I place an order?",
+      "howToOrderAnswer": "Browse our soaps, add the ones you like to your cart, and proceed to checkout.",
+      "howToTrack": "How do I track my order?",
+      "howToTrackAnswer": "Log in and go to 'My Orders' to see your delivery status.",
+      "paymentMethods": "What payment methods do you accept?",
+      "paymentMethodsAnswer": "We accept credit cards, debit cards, and MercadoPago.",
+      "returns": "Do you have a return policy?",
+      "returnsAnswer": "Yes, if you're not satisfied with the product you can return it within 30 days."
+    },
+    "buttons": {
+      "contact": "Contact Us",
+      "privacy": "Privacy Policy",
+      "terms": "Terms and Conditions"
+    }
   },
   "favoritos": {
     "title": "Favorites",
