@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
+import { FlatList, Alert } from 'react-native';
+import styled from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../context/ThemeContext';
@@ -7,6 +8,105 @@ import { useAuth } from '../context/AuthContext';
 import { getActiveOffers } from '../services/entities/offersService';
 import { useCart } from '../context/CartContext';
 import { checkPurchaseLimit } from '../services/entities/offerPurchasesService';
+
+// Styled Components
+const Container = styled.View`
+  flex: 1;
+  background-color: ${(props) => props.theme.colors.background};
+`;
+
+const ListContainer = styled.View`
+  padding: ${(props) => props.theme.spacing.sm}px;
+`;
+
+const Row = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const Card = styled.TouchableOpacity`
+  width: 48%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  background-color: ${(props) => props.theme.colors.card};
+`;
+
+const ProductImage = styled.Image`
+  width: 100%;
+  height: 120px;
+  resize-mode: cover;
+`;
+
+const CardContent = styled.View`
+  padding: ${(props) => props.theme.spacing.md}px;
+`;
+
+const ProductName = styled.Text`
+  font-size: ${(props) => props.theme.typography.fontSizes.md}px;
+  font-weight: 600;
+  color: ${(props) => props.theme.colors.text};
+  margin-bottom: 4px;
+`;
+
+const PriceContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  gap: ${(props) => props.theme.spacing.sm}px;
+`;
+
+const OriginalPrice = styled.Text`
+  font-size: ${(props) => props.theme.typography.fontSizes.sm}px;
+  text-decoration-line: line-through;
+  color: ${(props) => props.theme.colors.textSecondary};
+`;
+
+const DiscountBadge = styled.View`
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: ${(props) => props.theme.colors.success}20;
+`;
+
+const DiscountText = styled.Text`
+  font-size: ${(props) => props.theme.typography.fontSizes.sm}px;
+  font-weight: bold;
+  color: ${(props) => props.theme.colors.success};
+`;
+
+const OfferPrice = styled.Text`
+  font-size: ${(props) => props.theme.typography.fontSizes.xl}px;
+  font-weight: bold;
+  color: ${(props) => props.theme.colors.primary};
+  margin-top: 4px;
+`;
+
+const LowStock = styled.Text`
+  font-size: ${(props) => props.theme.typography.fontSizes.sm}px;
+  font-weight: 600;
+  color: ${(props) => props.theme.colors.warning};
+  margin-top: 4px;
+`;
+
+const SoldOut = styled.Text`
+  font-size: ${(props) => props.theme.typography.fontSizes.md}px;
+  font-weight: bold;
+  color: ${(props) => props.theme.colors.error};
+  margin-top: 4px;
+`;
+
+const EmptyContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding-vertical: 80px;
+`;
+
+const EmptyText = styled.Text`
+  font-size: ${(props) => props.theme.typography.fontSizes.lg}px;
+  text-align: center;
+  margin-top: ${(props) => props.theme.spacing.lg}px;
+  color: ${(props) => props.theme.colors.textSecondary};
+`;
 
 /**
  * Offers screen - displays products on sale
@@ -74,150 +174,57 @@ export default function OffersScreen() {
     const isSoldOut = remaining <= 0;
     
     return (
-      <TouchableOpacity
-        style={[styles.card, { backgroundColor: theme.colors.card }]}
+      <Card 
         onPress={() => handleAddToCart(offer)}
         disabled={isSoldOut}
       >
         {offer.products?.image_url && (
-          <Image
-            source={{ uri: offer.products.image_url }}
-            style={styles.image}
-          />
+          <ProductImage source={{ uri: offer.products.image_url }} />
         )}
         
-        <View style={styles.cardContent}>
-          <Text style={[styles.productName, { color: theme.colors.text }]}>
-            {offer.products?.name}
-          </Text>
+        <CardContent>
+          <ProductName>{offer.products?.name}</ProductName>
           
-          <View style={styles.priceContainer}>
-            <Text style={[styles.originalPrice, { color: theme.colors.textSecondary }]}>
-              ${offer.original_price}
-            </Text>
+          <PriceContainer>
+            <OriginalPrice>${offer.original_price}</OriginalPrice>
             {offer.discount_percentage > 0 && (
-              <View style={[styles.discountBadge, { backgroundColor: theme.colors.success + '20' }]}>
-                <Text style={[styles.discountText, { color: theme.colors.success }]}>
-                  -{offer.discount_percentage}%
-                </Text>
-              </View>
+              <DiscountBadge>
+                <DiscountText>-{offer.discount_percentage}%</DiscountText>
+              </DiscountBadge>
             )}
-          </View>
+          </PriceContainer>
           
-          <Text style={[styles.offerPrice, { color: theme.colors.primary }]}>
-            ${offer.offer_price}
-          </Text>
+          <OfferPrice>${offer.offer_price}</OfferPrice>
           
           {remaining <= 10 && remaining > 0 && (
-            <Text style={[styles.lowStock, { color: theme.colors.warning }]}>
-              Solo quedan {remaining}!
-            </Text>
+            <LowStock>Solo quedan {remaining}!</LowStock>
           )}
           
           {isSoldOut && (
-            <Text style={[styles.soldOut, { color: theme.colors.error }]}>
-              Agotado
-            </Text>
+            <SoldOut>Agotado</SoldOut>
           )}
-        </View>
-      </TouchableOpacity>
+        </CardContent>
+      </Card>
     );
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <Container>
       <FlatList
         data={offers}
         renderItem={renderOfferCard}
         keyExtractor={(item) => item.id}
         numColumns={2}
         columnWrapperStyle={styles.row}
-        contentContainerStyle={styles.list}
+        contentContainerStyle={ListContainer}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
-          <View style={styles.emptyContainer}>
+          <EmptyContainer>
             <Ionicons name="pricetag-outline" size={80} color={theme.colors.disabled} />
-            <Text style={[styles.emptyText, { color: theme.colors.textSecondary }]}>
-              {t('ofertas.empty')}
-            </Text>
-          </View>
+            <EmptyText>{t('ofertas.empty')}</EmptyText>
+          </EmptyContainer>
         }
       />
-    </View>
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  list: {
-    padding: 8,
-  },
-  row: {
-    justifyContent: 'space-between',
-  },
-  card: {
-    width: '48%',
-    borderRadius: 12,
-    overflow: 'hidden',
-    marginBottom: 12,
-  },
-  image: {
-    width: '100%',
-    height: 120,
-    resizeMode: 'cover',
-  },
-  cardContent: {
-    padding: 12,
-  },
-  productName: {
-    fontSize: 14,
-    fontWeight: '600',
-    marginBottom: 4,
-  },
-  priceContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  originalPrice: {
-    fontSize: 12,
-    textDecorationLine: 'line-through',
-  },
-  discountBadge: {
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-  },
-  discountText: {
-    fontSize: 10,
-    fontWeight: 'bold',
-  },
-  offerPrice: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 4,
-  },
-  lowStock: {
-    fontSize: 12,
-    fontWeight: '600',
-    marginTop: 4,
-  },
-  soldOut: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginTop: 4,
-  },
-  emptyContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 80,
-  },
-  emptyText: {
-    fontSize: 16,
-    textAlign: 'center',
-    marginTop: 16,
-  },
-});
