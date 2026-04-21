@@ -43,6 +43,27 @@ export {
   deleteOrderItem 
 } from './entities/orderItemsService';
 
+// Offers
+export { 
+  createOffer,
+  getActiveOffers,
+  getOffersByProduct,
+  getAllOffers,
+  updateOffer,
+  deleteOffer,
+  incrementSoldQuantity,
+  checkOfferAvailable
+} from './entities/offersService';
+
+// Offer Purchases
+export { 
+  purchaseOffer,
+  getUserPurchases,
+  checkPurchaseLimit,
+  getUserTotalSpentOnOffers,
+  hasUserReachedLimit
+} from './entities/offerPurchasesService';
+
 // Auth
 export { 
   signUpWithEmailPassword,
