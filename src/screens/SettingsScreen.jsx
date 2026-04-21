@@ -7,6 +7,7 @@ import Constants from 'expo-constants';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { useNotifications } from '../context/NotificationContext';
+import NavigationContext from '../navigation/NavigationContext';
 import ToggleSwitch from '../components/ToggleSwitch';
 import {
   Container,
@@ -34,15 +35,8 @@ export default function SettingsScreen() {
   const { t } = useTranslation();
   const { language, changeLanguage } = useLanguage();
   const { theme, isDarkMode, setDarkMode } = useTheme();
-  const { 
-    pushEnabled, 
-    emailEnabled, 
-    permissionsGranted,
-    isExpoGo,
-    setPushEnabled, 
-    setEmailEnabled,
-    requestPermissions 
-  } = useNotifications();
+  const { pushEnabled, emailEnabled, permissionsGranted, isExpoGo, setPushEnabled, setEmailEnabled, requestPermissions } = useNotifications();
+  const navigationRef = React.useContext(NavigationContext);
 
   // Get app version from expo-constants
   const appVersion = Constants?.expoConfig?.version || Constants?.manifest?.version || '1.0.0';
@@ -70,6 +64,13 @@ export default function SettingsScreen() {
 
   const handleDarkModeToggle = () => {
     setDarkMode(!isDarkMode);
+  };
+
+  const handleNavigate = (screenName) => {
+    // Use RootStack navigation from navigationRef
+    if (navigationRef?.current) {
+      navigationRef?.current?.navigate(screenName);
+    }
   };
 
   return (
@@ -172,7 +173,7 @@ export default function SettingsScreen() {
           <LanguageText>{appVersion}</LanguageText>
         </MenuItem>
 
-        <MenuItem onPress={() => navigation.navigate('Help')}>
+        <MenuItem onPress={() => handleNavigate('HelpSupportScreen')}>
           <MenuItemIcon bgColor={theme.colors.primary + '20'}>
             <Ionicons name="help-circle-outline" size={22} color={theme.colors.primary} />
           </MenuItemIcon>
@@ -181,8 +182,7 @@ export default function SettingsScreen() {
             <Ionicons name="chevron-forward" size={20} color={theme.colors.textSecondary} />
           </MenuItemArrow>
         </MenuItem>
-
-        <MenuItem onPress={() => navigation.navigate('ContactScreen')}>
+        <MenuItem onPress={() => navigation.navigate('AppStack', { screen: 'ContactScreen' })}>
           <MenuItemIcon bgColor={theme.colors.error + '20'}>
             <Ionicons name="shield-checkmark-outline" size={22} color={theme.colors.error} />
           </MenuItemIcon>

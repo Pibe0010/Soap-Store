@@ -16,6 +16,7 @@ import PerfilScreen from '../screens/PerfilScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import MyOrdersScreen from '../screens/MyOrdersScreen';
 import HelpScreen from '../screens/HelpScreen';
+import HelpSupportScreen from '../screens/HelpSupportScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
@@ -329,19 +330,22 @@ export default function AppNavigator({ initialUrl = null, navigationRef = null }
      <NavigationContext.Provider value={navigationRef}>
        <View style={{ flex: 1 }}>
          <View style={{ flex: 1 }}>
-           <RootStack.Navigator screenOptions={{ headerShown: false }}>
-             <RootStack.Screen name="MainTabs">
-               {() => <MainTabs setModalVisible={setModalVisible} />}
-             </RootStack.Screen>
-             <RootStack.Screen name="Login" component={LoginScreen} />
-             <RootStack.Screen name="Register" component={RegisterScreen} />
-             <RootStack.Screen name="EmailVerification" component={EmailVerificationScreen} />
-             <RootStack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-             <RootStack.Screen name="ResetPassword" component={ResetPasswordScreen} />
-             <RootStack.Screen name="ChangePassword" component={ChangePasswordScreen} />
-             <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
-             <RootStack.Screen name="Addresses" component={AddressesScreen} />
-             <RootStack.Screen name="EditAddress" component={EditAddressScreen} />
+            <RootStack.Navigator screenOptions={{ headerShown: false }}>
+              <RootStack.Screen name="MainTabs">
+                {() => <MainTabs setModalVisible={setModalVisible} />}
+              </RootStack.Screen>
+              <RootStack.Screen name="HelpSupportScreen" component={HelpSupportScreen} options={{ headerShown: false }} />
+              <RootStack.Screen name="HelpScreen" component={HelpScreen} options={{ headerShown: false }} />
+              <RootStack.Screen name="ContactScreen" component={ContactScreen} options={{ headerShown: false }} />
+              <RootStack.Screen name="Login" component={LoginScreen} />
+              <RootStack.Screen name="Register" component={RegisterScreen} />
+              <RootStack.Screen name="EmailVerification" component={EmailVerificationScreen} />
+              <RootStack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+              <RootStack.Screen name="ResetPassword" component={ResetPasswordScreen} />
+              <RootStack.Screen name="ChangePassword" component={ChangePasswordScreen} />
+              <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
+              <RootStack.Screen name="Addresses" component={AddressesScreen} />
+              <RootStack.Screen name="EditAddress" component={EditAddressScreen} />
            </RootStack.Navigator>
          </View>
 
