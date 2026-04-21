@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import { getActiveOffers } from '../services/entities/offersService';
-import { addToCart } from '../context/CartContext';
 import { useCart } from '../context/CartContext';
 import { checkPurchaseLimit } from '../services/entities/offerPurchasesService';
-
-const OFFERS_TAB_TEXT = 'Ofertas';
 
 /**
  * Offers screen - displays products on sale
@@ -46,15 +43,13 @@ export default function OffersScreen() {
     }
 
     try {
-      // Check purchase limit
       const { canPurchase, remaining } = await checkPurchaseLimit(user.id, offer.id);
       
       if (!canPurchase) {
-        Alert.alert('Límite alcanzado', `Ya compraste el máximo de ${4} ofertas de este producto.`);
+        Alert.alert('Límite alcanzado', `Ya compraste el máximo de ofertas de este producto.`);
         return;
       }
 
-      // Add to cart with offer price
       addToCart({
         id: offer.product_id,
         name: offer.products?.name,
@@ -92,7 +87,7 @@ export default function OffersScreen() {
         )}
         
         <View style={styles.cardContent}>
-          <Text style={[styles.productName, { color: theme.colors.text }]}}>
+          <Text style={[styles.productName, { color: theme.colors.text }]}>
             {offer.products?.name}
           </Text>
           
@@ -115,7 +110,7 @@ export default function OffersScreen() {
           
           {remaining <= 10 && remaining > 0 && (
             <Text style={[styles.lowStock, { color: theme.colors.warning }]}>
-              ¡Solo quedan {remaining}!
+              Solo quedan {remaining}!
             </Text>
           )}
           
