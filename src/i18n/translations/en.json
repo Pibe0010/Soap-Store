@@ -78,7 +78,13 @@
   "addToCart": "Add to cart",
   "ofertas": {
     "empty": "No offers available at the moment",
+    "limiteAlcanzado": "You've reached the purchase limit for this offer",
+    "añadidoCarrito": "Product added to cart with offer",
+    "errorCarrito": "Could not add to cart",
     "gestionOfertas": "Offer Management",
+    "headerSubtitle": "Limited time discounts",
+    "disponibles": "available",
+    "agotado": "Sold Out",
     "gestionOfertasSubtitle": "Create and manage your store offers",
     "crearNuevaOferta": "Create New Offer",
     "seleccionarProducto": "Select Product",
