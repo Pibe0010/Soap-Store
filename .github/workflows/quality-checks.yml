@@ -99,5 +99,10 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
+      - name: Clean native folders
+        run: |
+          rm -rf android ios
+          rm -rf node_modules/.cache
+
       - name: Build Android
         run: npx expo export --platform android

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, TextInput, TouchableOpacity, Text, Alert } from 'react-native';
+import { ScrollView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
@@ -7,34 +7,35 @@ import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import { getProducts } from '../services/entities/productsService';
 import { getAllOffers, createOffer, updateOffer, deleteOffer } from '../services/entities/offersService';
+import OfferCard from '../components/AdminOfferCard';
 import {
-  AdminContainer,
+  Container,
   Header,
   HeaderTitle,
+  HeaderSubtitle,
   Section,
   SectionTitle,
-  FormContainer,
+  Card,
+  DropdownTrigger,
+  DropdownText,
+  DropdownMenu,
+  DropdownItem,
+  DropdownItemText,
+  DropdownItemPrice,
   InputLabel,
-  Input,
   InputRow,
-  SmallInput,
+  InputWrapper,
+  Input,
+  DateInput,
+  DateText,
   SubmitButton,
   SubmitButtonText,
-  OfferCard,
-  OfferInfo,
-  OfferTitle,
-  OfferDetails,
-  DiscountBadge,
-  DiscountText,
-  ActionButtons,
-  IconButton,
+  EmptyContainer,
+  EmptyIcon,
   EmptyText,
-} from './AdminOffersStyles';
+  Backdrop,
+} from '../styles/AdminOffersStyles';
 
-/**
- * Admin screen for managing offers
- * Only accessible to admin users
- */
 export default function AdminOffersScreen() {
   const { t } = useTranslation();
   const { theme } = useTheme();
@@ -43,9 +44,10 @@ export default function AdminOffersScreen() {
   const [products, setProducts] = useState([]);
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   
   // Form state
-  const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [originalPrice, setOriginalPrice] = useState('');
   const [discountPercentage, setDiscountPercentage] = useState('0');
   const [maxPerUser, setMaxPerUser] = useState('4');
@@ -58,74 +60,74 @@ export default function AdminOffersScreen() {
 
   const loadData = async () => {
     try {
-      const [productsData, offersData] = await Promise.all([
-        getProducts(),
-        getAllOffers(),
-      ]);
-      setProducts(productsData || []);
-      setOffers(offersData || []);
+      const productsResult = await getProducts();
+      const offersResult = await getAllOffers();
+      const productsArray = productsResult?.data || [];
+      const offersArray = Array.isArray(offersResult) ? offersResult : offersResult?.data || [];
+      setProducts(productsArray);
+      setOffers(offersArray);
     } catch (error) {
       console.error('Error loading data:', error);
+      setProducts([]);
+      setOffers([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSelectProduct = (productId, price) => {
-    setSelectedProduct(productId);
-    setOriginalPrice(price.toString());
+  const handleSelectProduct = (product) => {
+    setSelectedProduct(product);
+    setOriginalPrice(product.price.toString());
+    setIsDropdownOpen(false);
+  };
+
+  const isValidDate = (dateStr) => {
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!regex.test(dateStr)) return false;
+    const date = new Date(dateStr);
+    return date instanceof Date && !isNaN(date);
   };
 
   const handleCreateOffer = async () => {
     if (!selectedProduct || !originalPrice || !maxTotal || !endDate) {
-      Alert.alert('Error', 'Por favor completa todos los campos');
+      Alert.alert(t('common.error'), t('ofertas.errorCamposRequeridos'));
       return;
     }
-
+    if (!isValidDate(endDate)) {
+      Alert.alert(t('common.error'), t('ofertas.fechaInvalida'));
+      return;
+    }
     try {
-      const startDate = new Date().toISOString();
-      const endDateISO = new Date(endDate).toISOString();
-      
       await createOffer({
-        product_id: selectedProduct,
+        product_id: selectedProduct.id,
         admin_id: user.id,
         original_price: parseFloat(originalPrice),
         discount_percentage: parseInt(discountPercentage) || 0,
         max_quantity_per_user: parseInt(maxPerUser) || 4,
         max_total_quantity: parseInt(maxTotal),
-        start_date: startDate,
-        end_date: endDateISO,
+        start_date: new Date().toISOString(),
+        end_date: new Date(endDate).toISOString(),
       });
-
-      Alert.alert('Éxito', 'Oferta creada correctamente');
+      Alert.alert('✓', t('ofertas.ofertaCreada'));
       resetForm();
       loadData();
     } catch (error) {
-      Alert.alert('Error', 'No se pudo crear la oferta');
-      console.error(error);
+      Alert.alert(t('common.error'), t('ofertas.errorCrearOferta'));
     }
   };
 
-  const handleDeleteOffer = async (offerId) => {
-    Alert.alert(
-      'Confirmar',
-      '¿Eliminar esta oferta?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Eliminar',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await deleteOffer(offerId);
-              loadData();
-            } catch (error) {
-              Alert.alert('Error', 'No se pudo eliminar');
-            }
-          },
-        },
-      ]
-    );
+  const handleDeleteOffer = (offerId) => {
+    Alert.alert(t('common.confirm'), t('ofertas.confirmarEliminar'), [
+      { text: t('cart.cancel'), style: 'cancel' },
+      { text: t('address.delete'), style: 'destructive', onPress: async () => {
+        try {
+          await deleteOffer(offerId);
+          loadData();
+        } catch (error) {
+          Alert.alert(t('common.error'), t('ofertas.errorEliminar'));
+        }
+      }},
+    ]);
   };
 
   const handleToggleActive = async (offer) => {
@@ -133,12 +135,12 @@ export default function AdminOffersScreen() {
       await updateOffer(offer.id, { is_active: !offer.is_active });
       loadData();
     } catch (error) {
-      Alert.alert('Error', 'No se pudo actualizar');
+      Alert.alert(t('common.error'), t('ofertas.errorActualizar'));
     }
   };
 
   const resetForm = () => {
-    setSelectedProduct('');
+    setSelectedProduct(null);
     setOriginalPrice('');
     setDiscountPercentage('0');
     setMaxPerUser('4');
@@ -148,147 +150,102 @@ export default function AdminOffersScreen() {
 
   if (!isLoggedIn) {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-        <AdminContainer>
-          <EmptyText>{t('perfil.loginPrompt')}</EmptyText>
-        </AdminContainer>
+      <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: theme.colors.surface }}>
+        <Container><EmptyText>{t('perfil.loginPrompt')}</EmptyText></Container>
       </SafeAreaView>
     );
   }
 
+  const selectedProductName = selectedProduct ? `${selectedProduct.name} - ${t('ofertas.currency')}${selectedProduct.price}` : t('ofertas.seleccionarProducto');
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }} edges={['top']}>
-      <AdminContainer>
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: theme.colors.surface }}>
+      <Container>
+        <Header>
+          <HeaderTitle>{t('ofertas.gestionOfertas')}</HeaderTitle>
+          <HeaderSubtitle>{t('ofertas.gestionOfertasSubtitle')}</HeaderSubtitle>
+        </Header>
+
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Header>
-            <HeaderTitle>Gestión de Ofertas</HeaderTitle>
-          </Header>
-
           <Section>
-            <SectionTitle>Crear Nueva Oferta</SectionTitle>
-            <FormContainer>
-              <InputLabel>Seleccionar Producto</InputLabel>
-              {products.map((product) => (
-                <TouchableOpacity
-                  key={product.id}
-                  onPress={() => handleSelectProduct(product.id, product.price)}
-                  style={{
-                    padding: 12,
-                    backgroundColor: selectedProduct === product.id 
-                      ? theme.colors.primary + '20' 
-                      : theme.colors.background,
-                    borderRadius: 8,
-                    marginBottom: 8,
-                  }}
-                >
-                  <Text style={{ color: theme.colors.text }}>
-                    {product.name} - ${product.price}
-                  </Text>
-                </TouchableOpacity>
-              ))}
+            <SectionTitle>{t('ofertas.crearNuevaOferta')}</SectionTitle>
+            <Card>
+              <InputLabel>{t('ofertas.seleccionarProducto')}</InputLabel>
+              <DropdownTrigger onPress={() => setIsDropdownOpen(!isDropdownOpen)} selected={!!selectedProduct}>
+                <DropdownText selected={!!selectedProduct}>{selectedProductName}</DropdownText>
+                <Ionicons name={isDropdownOpen ? 'chevron-up' : 'chevron-down'} size={20} color={theme.colors.textSecondary} />
+              </DropdownTrigger>
+
+              {isDropdownOpen && (
+                <>
+                  <Backdrop onPress={() => setIsDropdownOpen(false)} />
+                  <DropdownMenu>
+                    {products.length === 0 ? (
+                      <DropdownItem><DropdownItemText>{t('ofertas.noProductos')}</DropdownItemText></DropdownItem>
+                    ) : (
+                      products.map((product) => (
+                        <DropdownItem key={product.id} onPress={() => handleSelectProduct(product)} $selected={selectedProduct?.id === product.id}>
+                          <DropdownItemText>{product.name}</DropdownItemText>
+                          <DropdownItemPrice>{t('ofertas.currency')}{product.price}</DropdownItemPrice>
+                        </DropdownItem>
+                      ))
+                    )}
+                  </DropdownMenu>
+                </>
+              )}
 
               <InputRow>
-                <SmallInput>
-                  <InputLabel>Precio Original ($)</InputLabel>
-                  <Input
-                    value={originalPrice}
-                    onChangeText={setOriginalPrice}
-                    keyboardType="numeric"
-                    placeholder="0.00"
-                  />
-                </SmallInput>
-                <SmallInput>
-                  <InputLabel>Descuento (%)</InputLabel>
-                  <Input
-                    value={discountPercentage}
-                    onChangeText={setDiscountPercentage}
-                    keyboardType="numeric"
-                    placeholder="0"
-                  />
-                </SmallInput>
+                <InputWrapper>
+                  <InputLabel>{t('ofertas.precioOriginal')} ({t('ofertas.currency')})</InputLabel>
+                  <Input value={originalPrice} onChangeText={setOriginalPrice} keyboardType="numeric" placeholder="0.00" placeholderTextColor={theme.colors.textSecondary} />
+                </InputWrapper>
+                <InputWrapper>
+                  <InputLabel>{t('ofertas.descuento')} (%)</InputLabel>
+                  <Input value={discountPercentage} onChangeText={setDiscountPercentage} keyboardType="numeric" placeholder="0" placeholderTextColor={theme.colors.textSecondary} />
+                </InputWrapper>
               </InputRow>
 
               <InputRow>
-                <SmallInput>
-                  <InputLabel>Máx por Usuario</InputLabel>
-                  <Input
-                    value={maxPerUser}
-                    onChangeText={setMaxPerUser}
-                    keyboardType="numeric"
-                    placeholder="4"
-                  />
-                </SmallInput>
-                <SmallInput>
-                  <InputLabel>Cantidad Total</InputLabel>
-                  <Input
-                    value={maxTotal}
-                    onChangeText={setMaxTotal}
-                    keyboardType="numeric"
-                    placeholder="100"
-                  />
-                </SmallInput>
+                <InputWrapper>
+                  <InputLabel>{t('ofertas.maxPorUsuario')}</InputLabel>
+                  <Input value={maxPerUser} onChangeText={setMaxPerUser} keyboardType="numeric" placeholder="4" placeholderTextColor={theme.colors.textSecondary} />
+                </InputWrapper>
+                <InputWrapper>
+                  <InputLabel>{t('ofertas.cantidadTotal')}</InputLabel>
+                  <Input value={maxTotal} onChangeText={setMaxTotal} keyboardType="numeric" placeholder="100" placeholderTextColor={theme.colors.textSecondary} />
+                </InputWrapper>
               </InputRow>
 
-              <InputLabel>Fecha Fin (YYYY-MM-DD)</InputLabel>
+              <InputLabel>{t('ofertas.fechaFin')}</InputLabel>
               <Input
                 value={endDate}
                 onChangeText={setEndDate}
-                placeholder="2024-12-31"
+                placeholder={t('ofertas.fechaFinPlaceholder')}
+                placeholderTextColor={theme.colors.textSecondary}
+                keyboardType="numbers-and-punctuation"
               />
 
               <SubmitButton onPress={handleCreateOffer}>
-                <SubmitButtonText>Crear Oferta</SubmitButtonText>
+                <SubmitButtonText>{t('ofertas.crearOferta')}</SubmitButtonText>
               </SubmitButton>
-            </FormContainer>
+            </Card>
           </Section>
 
           <Section>
-            <SectionTitle>Ofertas Existentes</SectionTitle>
+            <SectionTitle>{t('ofertas.ofertasExistentes')}</SectionTitle>
             {offers.length === 0 ? (
-              <EmptyText>No hay ofertas creadas</EmptyText>
+              <EmptyContainer>
+                <EmptyIcon><Ionicons name="pricetag-outline" size={40} color={theme.colors.primary} /></EmptyIcon>
+                <EmptyText>{t('ofertas.noHayOfertas')}</EmptyText>
+              </EmptyContainer>
             ) : (
               offers.map((offer) => (
-                <OfferCard key={offer.id}>
-                  <OfferInfo>
-                    <OfferTitle>
-                      {offer.products?.name || 'Producto'}
-                      {offer.discount_percentage > 0 && (
-                        <DiscountBadge>
-                          <DiscountText>-{offer.discount_percentage}%</DiscountText>
-                        </DiscountBadge>
-                      )}
-                    </OfferTitle>
-                    <OfferDetails>
-                      ${offer.original_price} → ${offer.offer_price} | 
-                      Vendidas: {offer.sold_quantity}/{offer.max_total_quantity}
-                    </OfferDetails>
-                    <OfferDetails>
-                      Fin: {new Date(offer.end_date).toLocaleDateString()} | 
-                      {offer.is_active ? 'Activa' : 'Inactiva'}
-                    </OfferDetails>
-                  </OfferInfo>
-                  <ActionButtons>
-                    <IconButton onPress={() => handleToggleActive(offer)}>
-                      <Ionicons
-                        name={offer.is_active ? 'eye-off' : 'eye'}
-                        size={20}
-                        color={theme.colors.text}
-                      />
-                    </IconButton>
-                    <IconButton onPress={() => handleDeleteOffer(offer.id)}>
-                      <Ionicons
-                        name="trash-outline"
-                        size={20}
-                        color={theme.colors.error}
-                      />
-                    </IconButton>
-                  </ActionButtons>
-                </OfferCard>
+                <OfferCard key={offer.id} offer={offer} onToggleActive={handleToggleActive} onDelete={handleDeleteOffer} />
               ))
             )}
           </Section>
         </ScrollView>
-      </AdminContainer>
+      </Container>
     </SafeAreaView>
   );
 }

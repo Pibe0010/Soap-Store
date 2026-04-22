@@ -73,3 +73,17 @@ export const updateUser = async (id, userData) => {
 
   return mapUserFromDB(data);
 };
+
+export const checkIsAdmin = async (email) => {
+  const { data, error } = await supabase
+    .from('users')
+    .select('is_admin')
+    .eq('email', email)
+    .single();
+
+  if (error && error.code !== 'PGRST116') {
+    throw error;
+  }
+
+  return data?.is_admin || false;
+};

@@ -8,7 +8,7 @@ export { supabase } from './supabaseClient';
 export { getProducts, getProductById, getCategories } from './entities/productsService';
 
 // Users
-export { getUserById, getUserByEmail, createUser, updateUser } from './entities/usersService';
+export { getUserById, getUserByEmail, createUser, updateUser, checkIsAdmin } from './entities/usersService';
 
 // Addresses
 export { 
