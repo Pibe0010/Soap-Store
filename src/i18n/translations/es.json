@@ -78,7 +78,13 @@
   "addToCart": "Agregar al carrito",
   "ofertas": {
     "empty": "No hay ofertas disponibles por el momento",
+    "limiteAlcanzado": "Ya compraste el máximo de ofertas de este producto",
+    "añadidoCarrito": "Producto añadido al carrito con oferta",
+    "errorCarrito": "No se pudo añadir al carrito",
     "gestionOfertas": "Gestión de Ofertas",
+    "headerSubtitle": "Descuentos por tiempo limitado",
+    "disponibles": "disponibles",
+    "agotado": "Agotado",
     "gestionOfertasSubtitle": "Crea y gestiona las ofertas de tu tienda",
     "crearNuevaOferta": "Crear Nueva Oferta",
     "seleccionarProducto": "Seleccionar Producto",
