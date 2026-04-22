@@ -81,9 +81,7 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Build web
-        run: |
-          npx expo prebuild --platform web --clean
-          npx expo export --platform web
+        run: npx expo export --platform web
 
   build-android:
     name: Build Android (Expo)
@@ -101,7 +99,10 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Build Android
+      - name: Clean native folders
         run: |
-          npx expo prebuild --platform android --clean
-          npx expo export --platform android
+          rm -rf android ios
+          rm -rf node_modules/.cache
+
+      - name: Build Android
+        run: npx expo export --platform android
