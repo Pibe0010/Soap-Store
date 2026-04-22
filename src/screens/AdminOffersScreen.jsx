@@ -217,15 +217,13 @@ export default function AdminOffersScreen() {
               </InputRow>
 
               <InputLabel>{t('ofertas.fechaFin')}</InputLabel>
-              <DateInput>
-                <Input
-                  value={endDate}
-                  onChangeText={setEndDate}
-                  placeholder={t('ofertas.fechaFinPlaceholder')}
-                  placeholderTextColor={theme.colors.textSecondary}
-                  keyboardType="numbers-and-punctuation"
-                />
-              </DateInput>
+              <Input
+                value={endDate}
+                onChangeText={setEndDate}
+                placeholder={t('ofertas.fechaFinPlaceholder')}
+                placeholderTextColor={theme.colors.textSecondary}
+                keyboardType="numbers-and-punctuation"
+              />
 
               <SubmitButton onPress={handleCreateOffer}>
                 <SubmitButtonText>{t('ofertas.crearOferta')}</SubmitButtonText>
