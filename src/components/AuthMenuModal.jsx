@@ -11,6 +11,7 @@ import { useToast } from '../context/ToastContext';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../context/ThemeContext';
 import NavigationContext from '../navigation/NavigationContext';
+import { checkIsAdmin } from '../services/entities/usersService';
 import {
   Overlay,
   OverlayTouchable,
@@ -55,6 +56,26 @@ export default function AuthMenuModal({ visible, onClose, onLoginPress, onRegist
   const { showToast } = useToast();
   const navigationRef = useContext(NavigationContext);
   const isAnimating = useRef(false);
+  
+  const [isAdmin, setIsAdmin] = React.useState(false);
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      if (isLoggedIn && user?.email) {
+        try {
+          const adminStatus = await checkIsAdmin(user.email);
+          setIsAdmin(adminStatus);
+        } catch (error) {
+          console.error('Error checking admin status:', error);
+          setIsAdmin(false);
+        }
+      } else {
+        setIsAdmin(false);
+      }
+    };
+
+    checkAdminStatus();
+  }, [isLoggedIn, user]);
 
   const panResponder = useRef(
     PanResponder.create({
@@ -254,6 +275,16 @@ export default function AuthMenuModal({ visible, onClose, onLoginPress, onRegist
             <Ionicons name="heart-outline" size={24} color={theme.colors.primary} />
             <MenuItemText>{t('menu.favoritos')}</MenuItemText>
           </MenuItem>
+
+          {isAdmin && (
+            <>
+              <MenuDivider />
+              <MenuItem onPress={() => handleNavigate('AdminOffersScreen')}>
+                <Ionicons name="pricetag" size={24} color={theme.colors.warning} />
+                <MenuItemText>Gestión de Ofertas</MenuItemText>
+              </MenuItem>
+            </>
+          )}
 
           <MenuDivider />
 
