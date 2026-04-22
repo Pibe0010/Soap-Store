@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, Alert, Platform } from 'react-native';
+import { ScrollView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../context/ThemeContext';
@@ -53,8 +52,7 @@ export default function AdminOffersScreen() {
   const [discountPercentage, setDiscountPercentage] = useState('0');
   const [maxPerUser, setMaxPerUser] = useState('4');
   const [maxTotal, setMaxTotal] = useState('');
-  const [endDate, setEndDate] = useState(null);
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [endDate, setEndDate] = useState('');
 
   useEffect(() => {
     loadData();
@@ -83,19 +81,20 @@ export default function AdminOffersScreen() {
     setIsDropdownOpen(false);
   };
 
-  const handleDateChange = (event, selectedDate) => {
-    if (Platform.OS === 'android') setShowDatePicker(false);
-    if (selectedDate) setEndDate(selectedDate);
-  };
-
-  const formatDate = (date) => {
-    if (!date) return '';
-    return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const isValidDate = (dateStr) => {
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!regex.test(dateStr)) return false;
+    const date = new Date(dateStr);
+    return date instanceof Date && !isNaN(date);
   };
 
   const handleCreateOffer = async () => {
     if (!selectedProduct || !originalPrice || !maxTotal || !endDate) {
       Alert.alert(t('common.error'), t('ofertas.errorCamposRequeridos'));
+      return;
+    }
+    if (!isValidDate(endDate)) {
+      Alert.alert(t('common.error'), t('ofertas.fechaInvalida'));
       return;
     }
     try {
@@ -107,7 +106,7 @@ export default function AdminOffersScreen() {
         max_quantity_per_user: parseInt(maxPerUser) || 4,
         max_total_quantity: parseInt(maxTotal),
         start_date: new Date().toISOString(),
-        end_date: endDate.toISOString(),
+        end_date: new Date(endDate).toISOString(),
       });
       Alert.alert('✓', t('ofertas.ofertaCreada'));
       resetForm();
@@ -146,7 +145,7 @@ export default function AdminOffersScreen() {
     setDiscountPercentage('0');
     setMaxPerUser('4');
     setMaxTotal('');
-    setEndDate(null);
+    setEndDate('');
   };
 
   if (!isLoggedIn) {
@@ -218,20 +217,15 @@ export default function AdminOffersScreen() {
               </InputRow>
 
               <InputLabel>{t('ofertas.fechaFin')}</InputLabel>
-              <DateInput onPress={() => setShowDatePicker(true)}>
-                <DateText hasDate={!!endDate}>{endDate ? formatDate(endDate) : t('ofertas.fechaFinPlaceholder')}</DateText>
-                <Ionicons name="calendar-outline" size={20} color={theme.colors.textSecondary} />
+              <DateInput>
+                <Input
+                  value={endDate}
+                  onChangeText={setEndDate}
+                  placeholder={t('ofertas.fechaFinPlaceholder')}
+                  placeholderTextColor={theme.colors.textSecondary}
+                  keyboardType="numbers-and-punctuation"
+                />
               </DateInput>
-
-              {showDatePicker && (
-                <DateTimePicker value={endDate || new Date()} mode="date" display={Platform.OS === 'ios' ? 'spinner' : 'default'} onChange={handleDateChange} minimumDate={new Date()} />
-              )}
-
-              {Platform.OS === 'ios' && showDatePicker && (
-                <SubmitButton onPress={() => setShowDatePicker(false)} style={{ marginTop: 8, backgroundColor: theme.colors.secondary }}>
-                  <SubmitButtonText>{t('cart.confirm')}</SubmitButtonText>
-                </SubmitButton>
-              )}
 
               <SubmitButton onPress={handleCreateOffer}>
                 <SubmitButtonText>{t('ofertas.crearOferta')}</SubmitButtonText>

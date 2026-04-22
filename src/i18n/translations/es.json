@@ -88,6 +88,7 @@
     "cantidadTotal": "Cantidad Total",
     "fechaFin": "Fecha Fin (YYYY-MM-DD)",
     "fechaFinPlaceholder": "2024-12-31",
+    "fechaInvalida": "Formato de fecha inválido. Usa YYYY-MM-DD",
     "ofertasExistentes": "Ofertas Existentes",
     "noHayOfertas": "No hay ofertas creadas",
     "crearOferta": "Crear Oferta",
