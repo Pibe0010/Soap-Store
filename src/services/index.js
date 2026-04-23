@@ -64,6 +64,18 @@ export {
   hasUserReachedLimit
 } from './entities/offerPurchasesService';
 
+// Cart
+export { 
+  getCartItems,
+  addToCart,
+  updateCartItemQuantity,
+  removeFromCart,
+  clearUserCart,
+  getCartItemCount,
+  getCartTotal,
+  mapCartItemFromDB
+} from './entities/cartService';
+
 // Auth
 export { 
   signUpWithEmailPassword,

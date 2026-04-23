@@ -128,7 +128,7 @@ export default function OffersScreen() {
         return;
       }
 
-      addToCart({
+      addToCart(user.id, {
         id: offer.product_id,
         name: offer.products?.name,
         price: offer.offer_price,
@@ -138,7 +138,7 @@ export default function OffersScreen() {
         offer_id: offer.id,
         original_price: offer.original_price,
         discount_percentage: offer.discount_percentage,
-      }, 1);
+      });
 
       showToast(t('ofertas.añadidoCarrito'));
     } catch (error) {

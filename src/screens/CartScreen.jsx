@@ -3,6 +3,7 @@ import { FlatList, Alert, View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../context/ThemeContext';
 import {
@@ -40,6 +41,7 @@ import {
 export default function CartScreen() {
   const { t } = useTranslation();
   const { theme } = useTheme();
+  const { user } = useAuth();
   const { items, totalItems, totalPrice, updateQuantity, removeItem, clearCart } = useCart();
 
   const handleRemoveItem = (itemId) => {
@@ -48,7 +50,7 @@ export default function CartScreen() {
       t('cart.removeConfirm'),
       [
         { text: t('cart.cancel'), style: 'cancel' },
-        { text: t('cart.remove'), onPress: () => removeItem(itemId), style: 'destructive' },
+        { text: t('cart.remove'), onPress: () => removeItem(user.id, itemId), style: 'destructive' },
       ]
     );
   };
@@ -59,7 +61,7 @@ export default function CartScreen() {
       t('cart.clearConfirm'),
       [
         { text: t('cart.cancel'), style: 'cancel' },
-        { text: t('cart.clear'), onPress: clearCart, style: 'destructive' },
+        { text: t('cart.clear'), onPress: () => clearCart(user.id), style: 'destructive' },
       ]
     );
   };
@@ -89,11 +91,10 @@ export default function CartScreen() {
         <ItemName>{item.name}</ItemName>
         <ItemPrice>{item.price?.toFixed(2) || '0.00'}€</ItemPrice>
         <QuantityControls>
-          <QuantityButton onPress={() => updateQuantity(item.id, item.quantity - 1)}>
-            <Ionicons name="remove-circle-outline" size={24} color={theme.colors.primary} />
-          </QuantityButton>
-          <ItemQuantity>{item.quantity}</ItemQuantity>
-          <QuantityButton onPress={() => updateQuantity(item.id, item.quantity + 1)}>
+<QuantityButton onPress={() => updateQuantity(user.id, item.cartItemId, item.quantity - 1)}>
+              </QuantityButton>
+              <QuantityText>{item.quantity}</QuantityText>
+              <QuantityButton onPress={() => updateQuantity(user.id, item.cartItemId, item.quantity + 1)}>
             <Ionicons name="add-circle-outline" size={24} color={theme.colors.primary} />
           </QuantityButton>
         </QuantityControls>

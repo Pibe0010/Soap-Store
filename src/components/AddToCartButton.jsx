@@ -22,15 +22,13 @@ import NavigationContext from '../navigation/NavigationContext';
 export default function AddToCartButton({ product, size = 'medium' }) {
   const { t } = useTranslation();
   const { addItem } = useCart();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
   const { showToast } = useToast();
   const navigationRef = useContext(NavigationContext);
 
   const handleAddToCart = () => {
     if (!isLoggedIn) {
       showToast(t('toast.loginToAddCart'), t('toast.loginButton'), () => {
-        // Login is inside HomeStack (InicioTab), so we need to navigate there properly
-        // First navigate to InicioTab, then to Login
         const parent = navigationRef.current?.getParent();
         if (parent) {
           parent.navigate('InicioTab', { screen: 'Login' });
@@ -40,7 +38,7 @@ export default function AddToCartButton({ product, size = 'medium' }) {
       });
       return;
     }
-    addItem(product);
+    addItem(user.id, product);
   };
 
   return (
