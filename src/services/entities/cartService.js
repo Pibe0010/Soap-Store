@@ -71,7 +71,12 @@ export const addToCart = async (userId, productData) => {
     .single();
 
   if (error) throw error;
-  return data;
+
+  // Reload to get product details via JOIN
+  const cartItems = await getCartItems(userId);
+  const insertedItem = cartItems.find(item => item.id === data.id);
+  
+  return insertedItem || data;
 };
 
 export const updateCartItemQuantity = async (cartItemId, quantity, userId) => {
@@ -142,7 +147,7 @@ export const mapCartItemFromDB = (dbItem) => ({
   description: dbItem.products?.description,
   price: dbItem.products?.price,
   category: dbItem.products?.category,
-  image_url: dbItem.products?.image_url,
+  imageUrl: dbItem.products?.image_url,
   quantity: dbItem.quantity,
   is_offer: !!dbItem.offer_id,
   offer_id: dbItem.offer_id,

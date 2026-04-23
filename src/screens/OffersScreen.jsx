@@ -182,7 +182,7 @@ export default function OffersScreen() {
               <ProductName numberOfLines={2}>{offer.products?.name}</ProductName>
               
               <PriceContainer>
-                <OriginalPrice>{t('ofertas.currency')}{offer.original_price}</OriginalPrice>
+                <OriginalPrice>Precio: {t('ofertas.currency')}{offer.original_price}</OriginalPrice>
                 <OfferPrice>{t('ofertas.currency')}{offer.offer_price}</OfferPrice>
               </PriceContainer>
               
