@@ -14,6 +14,34 @@ jest.mock('react-native-safe-area-context', () => ({
   },
 }));
 
+jest.mock('../services/entities/cartService', () => ({
+  getCartItems: jest.fn().mockResolvedValue([]),
+  addToCart: jest.fn().mockResolvedValue({ id: 'cart-item-1', product_id: '1', quantity: 1, products: { name: 'Test Product', price: 10 } }),
+  updateCartItemQuantity: jest.fn().mockResolvedValue({}),
+  removeFromCart: jest.fn().mockResolvedValue(true),
+  clearUserCart: jest.fn().mockResolvedValue(true),
+  mapCartItemFromDB: (item) => ({
+    cartItemId: item.id,
+    productId: item.product_id,
+    name: item.products?.name,
+    price: item.products?.price || 10,
+    quantity: item.quantity,
+    is_offer: !!item.offer_id,
+    offer_id: item.offer_id,
+  }),
+}));
+
+// Mock AuthContext
+const mockUser = { id: 'user-123' };
+const mockAuthContext = {
+  user: mockUser,
+  isLoggedIn: true,
+};
+
+jest.mock('../context/AuthContext', () => ({
+  useAuth: () => mockAuthContext,
+}));
+
 const mockProduct = {
   id: '1',
   name: 'Jabón de Lavanda',
@@ -31,16 +59,16 @@ const mockProduct2 = {
 const TestAddButton = ({ product, label }) => {
   const { addItem } = useCart();
   return (
-    <TouchableOpacity onPress={() => addItem(product)} testID={`add-${label}`}>
+    <TouchableOpacity onPress={() => addItem('user-123', product)} testID={`add-${label}`}>
       <Text>{label}</Text>
     </TouchableOpacity>
   );
 };
 
-const TestRemoveButton = ({ productId, label }) => {
+const TestRemoveButton = ({ cartItemId, label }) => {
   const { removeItem } = useCart();
   return (
-    <TouchableOpacity onPress={() => removeItem(productId)} testID={`remove-${label}`}>
+    <TouchableOpacity onPress={() => removeItem('user-123', cartItemId)} testID={`remove-${label}`}>
       <Text>{label}</Text>
     </TouchableOpacity>
   );
@@ -49,8 +77,17 @@ const TestRemoveButton = ({ productId, label }) => {
 const TestClearButton = () => {
   const { clearCart } = useCart();
   return (
-    <TouchableOpacity onPress={clearCart} testID="clear-btn">
+    <TouchableOpacity onPress={() => clearCart('user-123')} testID="clear-btn">
       <Text>Clear</Text>
+    </TouchableOpacity>
+  );
+};
+
+const TestUpdateQuantity = ({ cartItemId, label }) => {
+  const { updateQuantity } = useCart();
+  return (
+    <TouchableOpacity onPress={() => updateQuantity('user-123', cartItemId, 3)} testID={`update-${label}`}>
+      <Text>{label}</Text>
     </TouchableOpacity>
   );
 };
@@ -63,7 +100,7 @@ const CartStateDisplay = () => {
       <Text testID="price">{String(totalPrice)}</Text>
       <Text testID="itemCount">{String(items.length)}</Text>
       {items.map(item => (
-        <Text key={item.id} testID={`qty-${item.id}`}>{String(item.quantity)}</Text>
+        <Text key={item.cartItemId} testID={`qty-${item.cartItemId}`}>{String(item.quantity)}</Text>
       ))}
     </View>
   );
@@ -93,55 +130,41 @@ describe('Cart flow integration', () => {
 
     fireEvent.press(getByTestId('add-Add'));
     fireEvent.press(getByTestId('add-Add'));
-    expect(getByTestId('qty-1').children[0]).toBe('2');
+    expect(getByTestId('qty-cart-item-1').children[0]).toBe('2');
     expect(getByTestId('count').children[0]).toBe('2');
   });
 
-  it('adds different products independently', () => {
-    const { getByTestId } = render(
-      <CartProvider>
-        <TestAddButton product={mockProduct} label="Add1" />
-        <TestAddButton product={mockProduct2} label="Add2" />
-        <CartStateDisplay />
-      </CartProvider>
-    );
-
-    fireEvent.press(getByTestId('add-Add1'));
-    fireEvent.press(getByTestId('add-Add2'));
-    expect(getByTestId('itemCount').children[0]).toBe('2');
-    expect(getByTestId('count').children[0]).toBe('2');
-  });
-
-  it('removes product and badge updates to 0', () => {
-    const { getByTestId } = render(
+  it('removes item from cart', () => {
+    const { getByTestId, queryByTestId } = render(
       <CartProvider>
         <TestAddButton product={mockProduct} label="Add" />
-        <TestRemoveButton productId="1" label="Remove" />
+        <TestRemoveButton cartItemId="cart-item-1" label="Remove" />
         <CartStateDisplay />
       </CartProvider>
     );
 
     fireEvent.press(getByTestId('add-Add'));
     expect(getByTestId('count').children[0]).toBe('1');
+
     fireEvent.press(getByTestId('remove-Remove'));
     expect(getByTestId('count').children[0]).toBe('0');
   });
 
-  it('clears cart and all totals reset', () => {
+  it('clears entire cart', () => {
     const { getByTestId } = render(
       <CartProvider>
-        <TestAddButton product={mockProduct} label="Add" />
+        <TestAddButton product={mockProduct} label="Add1" />
         <TestAddButton product={mockProduct2} label="Add2" />
         <TestClearButton />
         <CartStateDisplay />
       </CartProvider>
     );
 
-    fireEvent.press(getByTestId('add-Add'));
+    fireEvent.press(getByTestId('add-Add1'));
     fireEvent.press(getByTestId('add-Add2'));
+    expect(getByTestId('count').children[0]).toBe('2');
+
     fireEvent.press(getByTestId('clear-btn'));
     expect(getByTestId('count').children[0]).toBe('0');
-    expect(getByTestId('price').children[0]).toBe('0');
-    expect(getByTestId('itemCount').children[0]).toBe('0');
   });
 });

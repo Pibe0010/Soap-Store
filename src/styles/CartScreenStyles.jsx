@@ -31,55 +31,72 @@ export const EmptyText = styled.Text`
 
 export const ItemContainer = styled.View`
   flex-direction: row;
-  align-items: center;
-  padding: ${(props) => props.theme.spacing.md}px;
   background-color: ${(props) => props.theme.colors.surface};
   margin-bottom: ${(props) => props.theme.spacing.sm}px;
   margin-horizontal: ${(props) => props.theme.spacing.md}px;
-  border-radius: ${(props) => props.theme.spacing.sm}px;
+  border-radius: ${(props) => props.theme.spacing.md}px;
+  overflow: hidden;
+  elevation: 2;
+  shadow-color: #000;
+  shadow-offset: 0px 1px;
+  shadow-opacity: 0.1;
+  shadow-radius: 4px;
 `;
 
 export const ItemImage = styled.Image`
-  width: 80px;
-  height: 80px;
-  border-radius: ${(props) => props.theme.spacing.sm}px;
-  margin-right: ${(props) => props.theme.spacing.md}px;
+  width: 100px;
+  height: 100%;
+  min-height: 120px;
 `;
 
 export const ItemInfo = styled.View`
   flex: 1;
+  padding: ${(props) => props.theme.spacing.md}px;
+  justify-content: space-between;
+  position: relative;
 `;
 
 export const ItemName = styled.Text`
   font-size: ${(props) => props.theme.typography.fontSizes.md}px;
-  font-weight: ${(props) => props.theme.typography.fontWeights.medium};
+  font-weight: ${(props) => props.theme.typography.fontWeights.bold};
   color: ${(props) => props.theme.colors.text};
   margin-bottom: ${(props) => props.theme.spacing.xs}px;
+`;
+
+export const Label = styled.Text`
+  font-size: ${(props) => props.theme.typography.fontSizes.xs}px;
+  color: ${(props) => props.theme.colors.textSecondary};
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 `;
 
 export const ItemPrice = styled.Text`
   font-size: ${(props) => props.theme.typography.fontSizes.lg}px;
   font-weight: ${(props) => props.theme.typography.fontWeights.bold};
   color: ${(props) => props.theme.colors.primary};
-  margin-bottom: ${(props) => props.theme.spacing.sm}px;
+  margin-left: ${(props) => props.theme.spacing.xs}px;
 `;
 
 export const QuantityControls = styled.View`
   flex-direction: row;
   align-items: center;
+  margin-left: ${(props) => props.theme.spacing.xs}px;
 `;
 
 export const QuantityButton = styled.TouchableOpacity`
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   align-items: center;
   justify-content: center;
+  border-radius: ${(props) => props.theme.spacing.sm}px;
 `;
 
 export const QuantityText = styled.Text`
-  font-size: ${(props) => props.theme.typography.fontSizes.lg}px;
+  font-size: ${(props) => props.theme.typography.fontSizes.md}px;
   font-weight: ${(props) => props.theme.typography.fontWeights.bold};
-  color: ${(props) => props.theme.colors.primary};
+  color: ${(props) => props.theme.colors.text};
+  min-width: 40px;
+  text-align: center;
 `;
 
 export const ItemQuantity = styled.Text`
@@ -92,7 +109,21 @@ export const ItemQuantity = styled.Text`
 `;
 
 export const RemoveButton = styled.TouchableOpacity`
-  padding: ${(props) => props.theme.spacing.sm}px;
+  position: absolute;
+  top: ${(props) => props.theme.spacing.sm}px;
+  right: ${(props) => props.theme.spacing.sm}px;
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  background-color: ${(props) => props.theme.colors.error}15;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const BottomRow = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const Footer = styled.View`
