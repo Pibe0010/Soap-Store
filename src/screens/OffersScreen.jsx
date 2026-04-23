@@ -172,7 +172,7 @@ export default function OffersScreen() {
             
             {isSoldOut && (
               <SoldOutOverlay>
-                <SoldOutText>AGOTADO</SoldOutText>
+                <SoldOutText>{t('ofertas.agotado')}</SoldOutText>
               </SoldOutOverlay>
             )}
           </ImageContainer>
@@ -189,7 +189,7 @@ export default function OffersScreen() {
               {timeLeft && (
                 <TimerContainer>
                   <Ionicons name="time-outline" size={14} color={theme.colors.warning} />
-                  <TimerText>{timeLeft} Tiempo limite</TimerText>
+                  <TimerText>{t('ofertas.tiempoRestante')}: {timeLeft}</TimerText>
                 </TimerContainer>
               )}
               
