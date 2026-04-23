@@ -42,6 +42,9 @@ export const createOffer = async (offerData) => {
 };
 
 export const getActiveOffers = async () => {
+  // Auto-expire offers that have ended
+  await expireOffers();
+  
   const { data, error } = await supabase
     .from('offers')
     .select(`
@@ -63,6 +66,9 @@ export const getActiveOffers = async () => {
 };
 
 export const getOffersByProduct = async (productId) => {
+  // Auto-expire offers that have ended
+  await expireOffers();
+  
   const { data, error } = await supabase
     .from('offers')
     .select('*')
@@ -76,6 +82,9 @@ export const getOffersByProduct = async (productId) => {
 };
 
 export const getAllOffers = async () => {
+  // First, auto-expire offers that have ended
+  await expireOffers();
+  
   const { data, error } = await supabase
     .from('offers')
     .select(`
@@ -90,6 +99,30 @@ export const getAllOffers = async () => {
 
   if (error) throw error;
   return data || [];
+};
+
+/**
+ * Auto-expire offers that have passed their end date
+ */
+export const expireOffers = async () => {
+  const { data, error } = await supabase
+    .from('offers')
+    .select('id')
+    .eq('is_active', true)
+    .lt('end_date', new Date().toISOString());
+
+  if (error) throw error;
+  if (!data || data.length === 0) return [];
+
+  // Update all expired offers to inactive
+  const expiredIds = data.map(o => o.id);
+  const { error: updateError } = await supabase
+    .from('offers')
+    .update({ is_active: false })
+    .in('id', expiredIds);
+
+  if (updateError) throw updateError;
+  return expiredIds;
 };
 
 export const updateOffer = async (id, updates) => {
