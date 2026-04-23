@@ -281,7 +281,7 @@ export default function AuthMenuModal({ visible, onClose, onLoginPress, onRegist
               <MenuDivider />
               <MenuItem onPress={() => handleNavigate('AdminOffersScreen')}>
                 <Ionicons name="pricetag" size={24} color={theme.colors.warning} />
-                <MenuItemText>Gestión de Ofertas</MenuItemText>
+                <MenuItemText>{t('ofertas.gestionOfertas')}</MenuItemText>
               </MenuItem>
             </>
           )}
