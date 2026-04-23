@@ -45,6 +45,8 @@ export const getActiveOffers = async () => {
   // Auto-expire offers that have ended
   await expireOffers();
   
+  const now = new Date().toISOString();
+  
   const { data, error } = await supabase
     .from('offers')
     .select(`
@@ -58,7 +60,8 @@ export const getActiveOffers = async () => {
       )
     `)
     .eq('is_active', true)
-    .gt('end_date', new Date().toISOString())
+    .lte('start_date', now)
+    .gt('end_date', now)
     .order('created_at', { ascending: false });
 
   if (error) throw error;
@@ -69,12 +72,15 @@ export const getOffersByProduct = async (productId) => {
   // Auto-expire offers that have ended
   await expireOffers();
   
+  const now = new Date().toISOString();
+  
   const { data, error } = await supabase
     .from('offers')
     .select('*')
     .eq('product_id', productId)
     .eq('is_active', true)
-    .gt('end_date', new Date().toISOString())
+    .lte('start_date', now)
+    .gt('end_date', now)
     .single();
 
   if (error && error.code !== 'PGRST116') throw error; // PGRST116 = no rows returned
