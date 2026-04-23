@@ -177,9 +177,8 @@ export default function AdminOffersScreen() {
               </DropdownTrigger>
 
               {isDropdownOpen && (
-                <>
-                  <Backdrop onPress={() => setIsDropdownOpen(false)} />
-                  <DropdownMenu>
+                <DropdownMenu>
+                  <ScrollView nestedScrollEnabled style={{ maxHeight: 320 }}>
                     {products.length === 0 ? (
                       <DropdownItem><DropdownItemText>{t('ofertas.noProductos')}</DropdownItemText></DropdownItem>
                     ) : (
@@ -190,8 +189,8 @@ export default function AdminOffersScreen() {
                         </DropdownItem>
                       ))
                     )}
-                  </DropdownMenu>
-                </>
+                  </ScrollView>
+                </DropdownMenu>
               )}
 
               <InputRow>

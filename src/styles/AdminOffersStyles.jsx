@@ -72,10 +72,6 @@ export const DropdownText = styled.Text`
 `;
 
 export const DropdownMenu = styled.View`
-  position: absolute;
-  top: 100px;
-  left: 16px;
-  right: 16px;
   background-color: ${(props) => props.theme.colors.surface};
   border-radius: 12px;
   z-index: 101;
@@ -84,7 +80,8 @@ export const DropdownMenu = styled.View`
   shadow-opacity: 0.15;
   shadow-radius: 12px;
   elevation: 8;
-  max-height: 280px;
+  border-width: 1px;
+  border-color: ${(props) => props.theme.colors.disabled}40;
   overflow: hidden;
 `;
 
