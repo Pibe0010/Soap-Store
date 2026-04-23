@@ -35,7 +35,11 @@
     "removeConfirm": "Are you sure?",
     "clearConfirm": "Clear cart?",
     "cancel": "Cancel",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "product": "Product",
+    "quantity": "Quantity",
+    "unitPrice": "Unit price",
+    "currency": "€"
   },
   "contact": {
     "title": "Contact us",

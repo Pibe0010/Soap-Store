@@ -27,6 +27,8 @@ import {
   ClearButtonText,
   CheckoutButton,
   CheckoutButtonText,
+  Label,
+  BottomRow,
 } from '../styles/CartScreenStyles';
 
 /**
@@ -72,8 +74,8 @@ export default function CartScreen() {
 
   if (items.length === 0) {
     return (
-      <SafeAreaView style={{ flex: 1 }} edges={['top']}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }} edges={['top']}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: theme.colors.background }}>
           <Ionicons name="cart-outline" size={80} color={theme.colors.disabled} />
           <EmptyText>{t('cart.empty')}</EmptyText>
           <EmptyText>{t('cart.emptySubtitle')}</EmptyText>
@@ -88,25 +90,37 @@ export default function CartScreen() {
     <ItemContainer>
       <ItemImage source={{ uri: item.imageUrl }} />
       <ItemInfo>
-        <ItemName>{item.name}</ItemName>
-        <ItemPrice>{item.price?.toFixed(2) || '0.00'}€</ItemPrice>
-        <QuantityControls>
-<QuantityButton onPress={() => updateQuantity(user.id, item.cartItemId, item.quantity - 1)}>
+        <View>
+          <Label>{t('cart.product')}</Label>
+          <ItemName>{item.name}</ItemName>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
+            <Label>{t('cart.unitPrice')}: </Label>
+            <ItemPrice>{item.price?.toFixed(2) || '0.00'}{t('cart.currency')}</ItemPrice>
+          </View>
+        </View>
+        <BottomRow>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
+            <Label>{t('cart.quantity')}: </Label>
+            <QuantityControls>
+              <QuantityButton onPress={() => updateQuantity(user.id, item.cartItemId, item.quantity - 1)}>
+                <Ionicons name="remove-circle-outline" size={20} color={theme.colors.primary} />
               </QuantityButton>
               <QuantityText>{item.quantity}</QuantityText>
               <QuantityButton onPress={() => updateQuantity(user.id, item.cartItemId, item.quantity + 1)}>
-            <Ionicons name="add-circle-outline" size={24} color={theme.colors.primary} />
-          </QuantityButton>
-        </QuantityControls>
+                <Ionicons name="add-circle-outline" size={20} color={theme.colors.primary} />
+              </QuantityButton>
+            </QuantityControls>
+          </View>
+        </BottomRow>
+        <RemoveButton onPress={() => handleRemoveItem(item.id)}>
+          <Ionicons name="trash-outline" size={16} color={theme.colors.error} />
+        </RemoveButton>
       </ItemInfo>
-      <RemoveButton onPress={() => handleRemoveItem(item.id)}>
-        <Ionicons name="trash-outline" size={24} color={theme.colors.error} />
-      </RemoveButton>
     </ItemContainer>
   );
 
    return (
-       <SafeAreaView style={{ flex: 1, backgroundColor: theme.dark ? theme.colors.background : theme.colors.background, }} edges={['top']}>
+       <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }} edges={['top']}>
          <Container style={{ flex: 1 }}>
            <Header>
              <Title>{t('cart.title')}</Title>
