@@ -14,7 +14,7 @@ export const getProducts = async (filters = {}) => {
   if (filters.id) {
     query = query.eq('id', filters.id);
   }
-  if (filters.limit) {
+  if (filters.limit && filters.limit > 0) {
     query = query.limit(filters.limit);
   }
   if (filters.offset) {
@@ -32,7 +32,7 @@ export const getProducts = async (filters = {}) => {
   return {
     data: mappedData,
     total: count || 0,
-    limit: filters.limit || 10,
+    limit: filters.limit || 100,
     offset: filters.offset || 0,
   };
 };
