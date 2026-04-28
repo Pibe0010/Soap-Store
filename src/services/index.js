@@ -5,7 +5,7 @@
 export { supabase } from './supabaseClient';
 
 // Products
-export { getProducts, getProductById, getCategories } from './entities/productsService';
+export { getProducts, getProductById, getCategories, createProduct, updateProduct, deleteProduct, updateStock } from './entities/productsService';
 
 // Users
 export { getUserById, getUserByEmail, createUser, updateUser, checkIsAdmin } from './entities/usersService';

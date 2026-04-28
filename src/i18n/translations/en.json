@@ -74,6 +74,9 @@
     "category": "Category",
     "price": "Price",
     "description": "Description",
+    "stock": "Stock",
+    "units": "units",
+    "outOfStock": "Out of stock",
     "categories": {
       "Jabones Premium": "Premium",
       "Jabones Artesanales": "Artisan"

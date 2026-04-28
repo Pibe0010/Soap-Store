@@ -11,11 +11,12 @@ import NavigationContext from '../navigation/NavigationContext';
 /**
  * Button component that adds a product to the shopping cart.
  * Auth-gated: shows a toast with login prompt if user is not logged in.
+ * Stock-gated: shows a toast if product is out of stock.
  * Calls CartContext.addItem() with the full product object on authenticated press.
  * Displays "Agregar al carrito" label with cart icon.
  *
  * @param {Object} props
- * @param {Object} props.product - Product object to add to cart (must include id, name, price)
+ * @param {Object} props.product - Product object to add to cart (must include id, name, price, stock)
  * @param {('small'|'medium')} [props.size='medium'] - Button size variant
  * @returns {JSX.Element}
  */
@@ -25,6 +26,8 @@ export default function AddToCartButton({ product, size = 'medium' }) {
   const { isLoggedIn, user } = useAuth();
   const { showToast } = useToast();
   const navigationRef = useContext(NavigationContext);
+
+  const isOutOfStock = !product.stock || product.stock <= 0;
 
   const handleAddToCart = () => {
     if (!isLoggedIn) {
@@ -38,11 +41,17 @@ export default function AddToCartButton({ product, size = 'medium' }) {
       });
       return;
     }
+
+    if (isOutOfStock) {
+      showToast(t('products.outOfStock') || 'Producto sin stock', null);
+      return;
+    }
+
     addItem(user.id, product);
   };
 
   return (
-    <Button onPress={handleAddToCart} size={size}>
+    <Button onPress={handleAddToCart} size={size} disabled={isOutOfStock}>
       <ButtonContent>
         <Ionicons name="cart-outline" size={size === 'small' ? 16 : 20} color="white" />
         <ButtonText size={size}>{t('addToCart')}</ButtonText>
