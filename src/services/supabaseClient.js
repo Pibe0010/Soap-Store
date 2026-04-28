@@ -25,6 +25,8 @@ export const mapProductFromDB = (dbProduct) => ({
   price: dbProduct.price,
   category: dbProduct.category,
   imageUrl: dbProduct.image_url,
+  stock: dbProduct.stock ?? 0,
+  isActive: dbProduct.is_active ?? true,
   createdAt: dbProduct.created_at,
   updatedAt: dbProduct.updated_at,
 });
