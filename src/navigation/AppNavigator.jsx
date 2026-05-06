@@ -18,6 +18,7 @@ import MyOrdersScreen from '../screens/MyOrdersScreen';
 import HelpScreen from '../screens/HelpScreen';
 import HelpSupportScreen from '../screens/HelpSupportScreen';
 import AdminOffersScreen from '../screens/AdminOffersScreen';
+import AdminProductsScreen from '../screens/AdminProductsScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
@@ -337,6 +338,7 @@ export default function AppNavigator({ initialUrl = null, navigationRef = null }
               </RootStack.Screen>
               <RootStack.Screen name="HelpSupportScreen" component={HelpSupportScreen} options={{ headerShown: false }} />
               <RootStack.Screen name="AdminOffersScreen" component={AdminOffersScreen} options={{ headerShown: false }} />
+              <RootStack.Screen name="AdminProductsScreen" component={AdminProductsScreen} options={{ headerShown: false }} />
               <RootStack.Screen name="HelpScreen" component={HelpScreen} options={{ headerShown: false }} />
               <RootStack.Screen name="ContactScreen" component={ContactScreen} options={{ headerShown: false }} />
               <RootStack.Screen name="Login" component={LoginScreen} />
